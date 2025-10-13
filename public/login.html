@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Equatorial Piauí</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="login-box">
+    <h2>Login</h2>
+    <form id="formLogin">
+        <input type="email" id="email" name="email" placeholder="E-mail" required>
+        <input type="password" id="senha" name="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+    </form>
+    <a href="esqueci_senha.html">Esqueci minha senha</a><br>
+    <a href="cadastro.html">Cadastrar</a>
+</div>
+
+<script>
+const form = document.getElementById('formLogin');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+
+    try {
+        const res = await fetch('login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && !data.erro) {
+    alert(data.mensagem);
+    localStorage.setItem('usuario', email); // salva o login de forma persistente
+    window.location.href = "home.html";
+}
+
+        else {
+            alert(data.erro);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Erro ao fazer login. Tente novamente.');
+    }
+});
+</script>
+</body>
+</html>

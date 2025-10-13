@@ -1,0 +1,290 @@
+/* ============================================
+   ESTILO GERAL - Equatorial Piauí
+   ============================================ */
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background-color: #f5f8ff;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Links */
+a {
+  color: #2d6cdf;
+  text-decoration: none;
+  transition: 0.3s;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Botões padrões */
+button, .btn {
+  background: #2d6cdf;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover, .btn:hover {
+  background: #1f4da5;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 45px;
+  background-color: #2d6cdf;
+  color: white;
+  height: 80px;
+}
+.navbar .logo img {
+  width: 160px;
+  height: auto;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+.navbar ul li a {
+  color: white;
+  font-weight: 500;
+}
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   PÁGINAS DE LOGIN / CADASTRO / ESQUECI SENHA
+   ============================================ */
+
+.login-box {
+  background: white;
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+}
+.login-box h2 {
+  margin-bottom: 25px;
+  color: #2d6cdf;
+}
+.login-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.login-box input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+}
+.login-box input:focus {
+  border-color: #2d6cdf;
+}
+.login-box button {
+  margin-top: 10px;
+}
+.login-box a {
+  display: inline-block;
+  margin-top: 20px;
+  color: #2d6cdf;
+  font-weight: 500;
+}
+
+/* ============================================
+   DASHBOARD (home.html)
+   ============================================ */
+.dashboard {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 30px;
+}
+.dashboard h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+.dashboard h1 span {
+  color: #2d6cdf;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: 0.3s;
+}
+.card h3 {
+  color: #2d6cdf;
+  margin-bottom: 10px;
+}
+.card p {
+  font-size: 22px;
+  font-weight: bold;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Top usuário */
+.top-usuario {
+  text-align: center;
+  margin: 30px 0;
+}
+.top-usuario h3 {
+  color: #2d6cdf;
+  margin-bottom: 5px;
+}
+
+/* Gráfico */
+.grafico {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+/* Últimas notas */
+.ultimas-notas {
+  margin-top: 40px;
+}
+.ultimas-notas h3 {
+  text-align: center;
+  color: #2d6cdf;
+  margin-bottom: 15px;
+}
+
+/* ============================================
+   TABELAS (histórico, últimas notas)
+   ============================================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+table th, table td {
+  padding: 12px;
+  text-align: left;
+}
+table th {
+  background: #2d6cdf;
+  color: white;
+}
+table tr:nth-child(even) {
+  background: #f2f5ff;
+}
+table tr:hover {
+  background: #e6edff;
+}
+
+/* ============================================
+   FORMULÁRIOS GERAIS
+   ============================================ */
+form label {
+  font-weight: 500;
+  color: #333;
+}
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+form input:focus, form select:focus, form textarea:focus {
+  border-color: #2d6cdf;
+  outline: none;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  background: #2d6cdf;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 60px;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.social-icons a {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #2d6cdf;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+.social-icons a:hover {
+  background: #00aeef;
+  color: white;
+}
+
+/* ============================================
+   MENSAGENS / ALERTAS
+   ============================================ */
+.mensagem-erro {
+  color: #e53935;
+  background: #ffecec;
+  border: 1px solid #f5a4a4;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
+.mensagem-sucesso {
+  color: #2e7d32;
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+}

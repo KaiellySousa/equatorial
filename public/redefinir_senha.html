@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Redefinir Senha - Equatorial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<h2>Redefinir senha</h2>
+
+<form id="form-redefinir">
+  <label for="senha">Nova senha</label><br>
+  <input type="password" id="senha" required><br><br>
+  <label for="confirma">Confirmar senha</label><br>
+  <input type="password" id="confirma" required><br><br>
+  <button type="submit">Redefinir</button>
+</form>
+
+<p id="mensagem"></p>
+
+<script>
+function pegarParametro(nome) {
+  return new URLSearchParams(window.location.search).get(nome);
+}
+
+const form = document.getElementById('form-redefinir');
+const msg = document.getElementById('mensagem');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const senha = document.getElementById('senha').value;
+  const confirma = document.getElementById('confirma').value;
+  if (senha !== confirma) { msg.textContent = 'Senhas não coincidem.'; return; }
+
+  const token = pegarParametro('token');
+  if (!token) { msg.textContent = 'Token ausente.'; return; }
+
+  msg.textContent = 'Enviando...';
+  try {
+    const res = await fetch('/api/controllers/senhaController.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, senha })
+    });
+    const json = await res.json();
+    if (res.ok) {
+      msg.textContent = json.message || 'Senha redefinida.';
+      setTimeout(() => window.location.href = 'login.html', 1500);
+    } else {
+      msg.textContent = json.error || 'Erro ao redefinir senha.';
+    }
+  } catch (err) {
+    console.error(err);
+    msg.textContent = 'Erro no servidor. Tente novamente.';
+  }
+});
+</script>
+</body>
+</html>

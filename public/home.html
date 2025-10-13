@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Equatorial Piauí</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo">
+    <img src="Imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html"><strong>Home</strong></a></li>
+      <li><a href="formulario.html"><strong>Formulário</strong></a></li>
+      <li><a href="historico.html"><strong>Histórico</strong></a></li>
+      <li><a href="relatorios.html"><strong>Relatórios</strong></a></li>
+      <li><a href="#" id="logout"><strong>Sair</strong></a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="dashboard">
+    <h1>Olá, <span id="usuarioNome"></span> 👋</h1>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Total de Notas</h3>
+        <p id="totalNotas">0</p>
+      </div>
+      <div class="card">
+        <h3>Pendentes</h3>
+        <p id="pendentes">0</p>
+      </div>
+      <div class="card">
+        <h3>Aprovadas</h3>
+        <p id="aprovadas">0</p>
+      </div>
+      <div class="card">
+        <h3>Reprovadas</h3>
+        <p id="reprovadas">0</p>
+      </div>
+    </div>
+
+    <div class="top-usuario">
+      <h3>Usuário que mais registrou notas:</h3>
+      <p id="topUsuario">-</p>
+    </div>
+
+    <div class="grafico">
+      <h3>Notas por Status</h3>
+      <canvas id="statusChart"></canvas>
+    </div>
+
+    <div class="ultimas-notas">
+      <h3>Últimas 5 Notas</h3>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuário</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Data/Hora</th>
+          </tr>
+        </thead>
+        <tbody id="ultimasNotasBody">
+          <!-- preenchido via JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Simulação de autenticação via sessão (se não tiver token, redireciona)
+  const usuario = localStorage.getItem('usuario');
+if (!usuario) {
+  window.location.href = 'login.html';
+} else {
+  const el = document.getElementById('usuarioNome');
+  if (el) el.textContent = usuario;
+}
+
+document.getElementById('logout').addEventListener('click', () => {
+  localStorage.removeItem('usuario');
+  window.location.href = 'login.html';
+});
+
+
+  // Dados simulados: substituir por fetch('/api/resumo') para consumo real
+  const resumo = {
+    total: 120,
+    pendentes: 15,
+    aprovadas: 90,
+    reprovadas: 15,
+    topUsuario: 'João Silva',
+    ultimasNotas: [
+      {id:1, usuario:'Ana', cliente:'Cliente A', status:'Aprovado', data:'2025-10-12 08:00'},
+      {id:2, usuario:'João', cliente:'Cliente B', status:'Pendente', data:'2025-10-12 09:00'},
+      {id:3, usuario:'Maria', cliente:'Cliente C', status:'Reprovado', data:'2025-10-12 09:30'},
+      {id:4, usuario:'João', cliente:'Cliente D', status:'Aprovado', data:'2025-10-12 10:00'},
+      {id:5, usuario:'Ana', cliente:'Cliente E', status:'Aprovado', data:'2025-10-12 11:00'}
+    ]
+  };
+
+  // Preencher cards
+  document.getElementById('totalNotas').textContent = resumo.total;
+  document.getElementById('pendentes').textContent = resumo.pendentes;
+  document.getElementById('aprovadas').textContent = resumo.aprovadas;
+  document.getElementById('reprovadas').textContent = resumo.reprovadas;
+  document.getElementById('topUsuario').textContent = `${resumo.topUsuario}`;
+
+  // Preencher tabela últimas notas
+  const tbody = document.getElementById('ultimasNotasBody');
+  resumo.ultimasNotas.forEach(n => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${n.id}</td><td>${n.usuario}</td><td>${n.cliente}</td><td>${n.status}</td><td>${n.data}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Gráfico Chart.js
+  const ctx = document.getElementById('statusChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Pendentes', 'Aprovadas', 'Reprovadas'],
+      datasets: [{
+        label: 'Notas',
+        data: [resumo.pendentes, resumo.aprovadas, resumo.reprovadas],
+        backgroundColor: ['#f2b500','#2d6cdf','#ff4c4c']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+</script>
+
+</body>
+</html>

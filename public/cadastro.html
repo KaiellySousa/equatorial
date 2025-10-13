@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro - Equatorial Piauí</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="login-box">
+    <h2>Cadastro</h2>
+    <form id="formCadastro">
+        <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+        <input type="email" id="email" name="email" placeholder="E-mail" required>
+        <input type="password" id="senha" name="senha" placeholder="Senha" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+    <a href="login.html">Já tenho conta</a>
+</div>
+
+<script>
+const form = document.getElementById('formCadastro');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value;
+
+    // Validação do domínio do e-mail antes de enviar
+    if (!email.endsWith("@equatorialenergia.com.br")) {
+        alert("Somente e-mails @equatorialenergia.com.br são permitidos");
+        return;
+    }
+
+    try {
+        const res = await fetch('cadastro.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, senha })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            alert(data.mensagem);
+            form.reset();
+            window.location.href = "login.html";
+        } else {
+            alert(data.erro);
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Erro ao cadastrar. Tente novamente.');
+    }
+});
+</script>
+</body>
+</html>
