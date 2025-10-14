@@ -1,5 +1,324 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grupo Equatorial Piauí</title>
+    <link rel="stylesheet" href="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <style>
+      body {
+  font-family: "Inter", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f8ff;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 45px;
+  background-color: #2d6cdf;
+  color: white;
+  height: 80px;
+  line-height: 80px;
+}
+
+.navbar .logo img {
+  width: 150px;   /*largura */
+  height: auto;  
+  display: block; 
+}
+
+.navbar .logo {
+  margin-left: -3%;
+  
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-login {
+  padding: 8px 16px;
+  border: 2px solid white;
+  border-radius: 25px;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-login:hover {
+  background: white;
+  color: #2d6cdf;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 20px 60px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero h1 span {
+  color: #2d6cdf;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.btn-primeiro {
+  background: #2d6cdf;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-primeiro:hover {
+  background: #1f4da5;
+}
+
+/* Cards Section */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 60px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: #2d6cdf;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+
+/* Footer */
+footer {
+  background: #2d6cdf;
+  color: white;
+  text-align: center;
+  padding: 2px 50px;;
+}
+
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+social-login {
+  margin-top: 20px;
+}
+
+.social-login p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-icons a {
+  width: 25px;
+  height: 25px;
+  background: #f5f8ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #002d6c;
+  font-size: 17px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background: #00aeef;
+  color: white;
+}
+    </style>
+    <!-- Header -->
+    <header class="navbar">
+      <div class="logo">
+        <img src="assets\imagens\energia-equatorial-removebg-preview.png" alt="Imagem equatorial" />
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#"><strong>Consultas</strong></a></li>
+          <li><a href="relatorios.html"><strong>Relatórios</strong></a></li>
+           <li><a href="#" id="logout"><strong>Sair</strong></a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="dashboard">
+    <h1>Olá, <span id="usuarioNome"></span> 👋</h1>
+    <section class="hero">
+      <h1><span>Equatorial Piauí</span></h1>
+      <p>
+        Gerencie suas informações, consulte relatórios e acompanhe seu
+        desempenho no mesmo lugar
+      </p>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="cards">
+      <div class="card">
+        <h3><a href="registrar.html" target="_blank">Acesso aos Indicadores</a></h3>
+        <p>Cadastre notas de forma rápida e prática.</p>
+      </div>
+      <div class="card">
+        <h3>
+          <a href="historico.html" target="_blank"> Historico Básico de Notas</a>
+        </h3>
+        <p>Visualize e acompanhe as notas.</p>
+      </div>
+      <div class="card">
+        <h3>
+          <a href="relatorios.html" target="_blank"
+            >relatórios</a
+          >
+        </h3>
+        <p>Gere relatórios detalhados.</p>
+      </div>
+      <div class="card">
+        <h3><a href="formulario.html" target="_blank">Formulário</a></h3>
+        <p>Preencha dados importantes diretamente no sistema.</p>
+      </div>
+    </section>
+
+    <script>
+       // Simulação de autenticação via sessão (se não tiver token, redireciona)
+      const usuario = localStorage.getItem('usuario');
+        if (!usuario) {
+          window.location.href = 'login.html';
+      } else {
+        const el = document.getElementById('usuarioNome');
+      if (el) el.textContent = usuario;
+      }
+
+document.getElementById('logout').addEventListener('click', () => {
+  localStorage.removeItem('usuario');
+  window.location.href = 'login.html';
+});
+
+    </script>
+
+    <!-- roapezinho -->
+    <footer>
+      <p>© 2025 Grupo Equatorial Piauí</p>
+      <div class="social-login">
+            <div class="social-icons">
+              <a href="https://www.linkedin.com/company/grupoequatorial/"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <a href="https://www.facebook.com/people/Equatorial-Energia/100069071792298/#"><i class="fab fa-facebook-f"></i></a>
+              <a
+                href="https://www.instagram.com/grupoequatorial?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+    </footer>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,16 +333,38 @@
   </div>
   <nav>
     <ul>
-      <li><a href="home.html"><strong>Home</strong></a></li>
       <li><a href="formulario.html"><strong>Formulário</strong></a></li>
       <li><a href="historico.html"><strong>Histórico</strong></a></li>
-      <li><a href="relatorios.html"><strong>Relatórios</strong></a></li>
       <li><a href="#" id="logout"><strong>Sair</strong></a></li>
     </ul>
   </nav>
 </header>
 
 <main>
+   <section class="dashboard">
+    <h1>Olá, <span id="usuarioNome"></span></h1>
+    <section></section>
+     <div class="cards">
+      <div class="card">
+        <h3>Relatorio
+          <link rel="stylesheet" href="relatorios.html">
+        </h3>
+        <p id="totalNotas">0</p>
+      </div>
+       <div class="card">
+        <h3>Formulário
+          <link rel="stylesheet" href="formulario.html">
+        </h3>
+        <p id="totalNotas">0</p>
+      </div>
+      <div class="card">
+        <h3>Historico
+          <link rel="stylesheet" href="historico.html">
+        </h3>
+        <p id="totalNotas">0</p>
+      </div>
+      </div>
+ 
   <section class="dashboard">
     <h1>Olá, <span id="usuarioNome"></span> 👋</h1>
 
@@ -69,11 +410,12 @@
           </tr>
         </thead>
         <tbody id="ultimasNotasBody">
-          <!-- preenchido via JS -->
+       
         </tbody>
       </table>
     </div>
   </section>
+  
 </main>
 
 <script>
@@ -91,7 +433,7 @@ document.getElementById('logout').addEventListener('click', () => {
   window.location.href = 'login.html';
 });
 
-
+ /*
   // Dados simulados: substituir por fetch('/api/resumo') para consumo real
   const resumo = {
     total: 120,
@@ -141,7 +483,9 @@ document.getElementById('logout').addEventListener('click', () => {
       scales: { y: { beginAtZero: true } }
     }
   });
+  */
 </script>
 
 </body>
 </html>
+-->

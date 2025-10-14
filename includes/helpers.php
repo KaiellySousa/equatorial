@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-/* ======================================
-   RETORNAR JSON
-   ====================================== */
+/*retorna o json */
 function retornarJSON($dados = [], $status = 200){
     http_response_code($status);
     header('Content-Type: application/json; charset=utf-8');
@@ -11,9 +9,7 @@ function retornarJSON($dados = [], $status = 200){
     exit;
 }
 
-/* ======================================
-   VALIDAR EMAIL
-   ====================================== */
+/* validação do EMAIL */
 function validarEmail($email){
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
@@ -29,25 +25,19 @@ function validarSenha($senha){
     return true;
 }
 
-/* ======================================
-   GERAR TOKEN SEGURO
-   ====================================== */
+/* gerador de tokin seguro*/
 function gerarToken($tamanho = 50){
     return bin2hex(random_bytes($tamanho));
 }
 
-/* ======================================
-   CHECAR LOGIN
-   ====================================== */
+/* checagem do login */
 function checarLogin(){
     if(!isset($_SESSION['usuario_id'])){
         retornarJSON(['error' => 'Usuário não autenticado'], 401);
     }
 }
 
-/* ======================================
-   FORMATAR DATA
-   ====================================== */
+/*formatação da data*/
 function formatarData($data, $formato = 'd/m/Y H:i:s'){
     return date($formato, strtotime($data));
 }

@@ -16,7 +16,7 @@ class EmailService {
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            $mail->setFrom('no-reply@empresa.com','Equatorial Energia');
+            $mail->setFrom('kaiellysousa8530@gmail.com','Equatorial Energia');
             $mail->addAddress($destino);
             $mail->isHTML(true);
             $mail->Subject = $assunto;
