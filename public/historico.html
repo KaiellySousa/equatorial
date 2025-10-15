@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Histórico de Notas</title>
-<link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <title>Histórico de Notas - Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<h2>Histórico de Notas</h2>
-<table border="1" id="tabelaNotas">
-    <thead>
+ <header class="navbar">
+  <div class="logo">
+    <img src="assets\imagens\energia-equatorial-removebg-preview.png" alt="Equatorial Energia">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html"><strong>Home</strong></a></li>
+      <li><a href="formulario.html"><strong>Formulário</strong></a></li>
+      <li><a href="historico.html"><strong>Histórico</strong></a></li>
+      <li><a href="#" id="logout"><strong>Sair</strong></a></li>
+    </ul>
+  </nav>
+</header>
+
+  <main class="container">
+    <h2>Histórico de Notas</h2>
+    <table border="1" id="tabelaNotas">
+      <thead>
         <tr>
-            <th>ID</th>
-            <th>Usuário</th>
-            <th>Regional</th>
-            <th>Instalação</th>
-            <th>Cliente</th>
-            <th>STC</th>
-            <th>Status</th>
-            <th>Data/Hora</th>
+          <th>ID</th>
+          <th>Usuário</th>
+          <th>Regional</th>
+          <th>Instalação</th>
+          <th>Cliente</th>
+          <th>STC</th>
+          <th>Status</th>
+          <th>Dificuldade</th>
+          <th>Data/Hora</th>
         </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
 
-<script>
-    const usuario = localStorage.getItem('usuario');
-if (!usuario) {
-  window.location.href = 'login.html';
-} else {
-  const el = document.getElementById('usuarioNome');
-  if (el) el.textContent = usuario;
-}
-
-document.getElementById('logout').addEventListener('click', () => {
-  localStorage.removeItem('usuario');
-  window.location.href = 'login.html';
-});
-
-async function carregarNotas() {
-    try {
-        const res = await fetch('/notas'); // rota Node.js
-        const dados = await res.json();
-        const tbody = document.querySelector("#tabelaNotas tbody");
-        tbody.innerHTML = "";
-        dados.forEach(n => {
-            tbody.innerHTML += `
-            <tr>
-                <td>${n.id}</td>
-                <td>${n.usuario}</td>
-                <td>${n.regional}</td>
-                <td>${n.instalacao}</td>
-                <td>${n.cliente}</td>
-                <td>${n.stc}</td>
-                <td>${n.status}</td>
-                <td>${n.data_hora}</td>
-            </tr>`;
-        });
-    } catch (erro) {
-        console.error("Erro ao carregar notas:", erro);
+  <script>
+    async function carregarNotas() {
+      const res = await fetch('/notas');
+      const dados = await res.json();
+      const tbody = document.querySelector('#tabelaNotas tbody');
+      tbody.innerHTML = '';
+      dados.forEach(n => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${n.id}</td>
+            <td>${n.usuario}</td>
+            <td>${n.regional}</td>
+            <td>${n.instalacao}</td>
+            <td>${n.cliente}</td>
+            <td>${n.stc}</td>
+            <td>${n.status}</td>
+            <td>${n.dificuldade}</td>
+            <td>${n.data_hora}</td>
+          </tr>`;
+      });
     }
-}
-carregarNotas();
-</script>
+    carregarNotas();
+  </script>
 </body>
 </html>

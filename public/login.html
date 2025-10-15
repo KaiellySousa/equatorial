@@ -28,7 +28,7 @@ form.addEventListener('submit', async (e) => {
   const senha = document.getElementById('senha').value;
 
   try {
-    const res = await fetch('../app/controllers/login.php', {
+    const res = await fetch('http://localhost:3000/login', {  // 🔹 CORRIGIDO
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
@@ -36,22 +36,39 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    if (res.ok && data.status === 'ok') {
+    if (data.sucesso) {
       Swal.fire({
         icon: 'success',
-        title: data.mensagem,
-        timer: 1200,
+        title: data.titulo,
+        text: data.mensagem,
+        background: '#f5f8ff',
+        color: '#002d6c',
+        confirmButtonColor: '#007bff',
+        timer: 1500,
         showConfirmButton: false
       }).then(() => {
         localStorage.setItem('usuario', data.nome);
         window.location.href = "home.html";
       });
     } else {
-      Swal.fire({ icon: 'error', title: data.erro || 'E-mail ou senha incorretos!' });
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro no login',
+        text: data.erro || 'E-mail ou senha incorretos!',
+        background: '#f5f8ff',
+        color: '#002d6c',
+        confirmButtonColor: '#007bff'
+      });
     }
   } catch (err) {
-    console.error(err);
-    Swal.fire({ icon: 'error', title: 'Erro no servidor. Tente novamente.' });
+    Swal.fire({
+      icon: 'error',
+      title: 'Falha no servidor',
+      text: 'Não foi possível conectar. Tente novamente.',
+      background: '#f5f8ff',
+      color: '#002d6c',
+      confirmButtonColor: '#007bff'
+    });
   }
 });
 </script>

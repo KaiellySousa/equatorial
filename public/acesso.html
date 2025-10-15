@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso aos Indicadores - Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body { font-family: "Inter", sans-serif; background: #f5f8ff; color: #002d6c; }
+    h2 { text-align: center; margin-top: 20px; }
+    table { width: 90%; margin: 20px auto; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #e8eef9; color: #002d6c; }
+    tr:hover { background-color: #f1f6ff; }
+    .nivel { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .facil::before { content: "🟢"; }
+    .medio::before { content: "🟡"; }
+    .dificil::before { content: "🔴"; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial">
+    </div>
+  </header>
+
+  <main>
+    <h2>Acesso aos Indicadores</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nota (STC)</th>
+          <th>Cliente</th>
+          <th>Regional</th>
+          <th>Status</th>
+          <th>Duração</th>
+          <th>Nível de Dificuldade</th>
+        </tr>
+      </thead>
+      <tbody id="listaIndicadores"></tbody>
+    </table>
+  </main>
+
+  <script>
+    async function carregarIndicadores() {
+      try {
+        const res = await fetch('/notas');
+        let notas = [];
+
+        // caso o servidor não esteja rodando, cria dados fictícios:
+        if (!res.ok) {
+          notas = [
+            { stc: "STC-001", cliente: "Maria Silva", regional: "Teresina", status: "Aprovado", dificuldade: "Fácil" },
+            { stc: "STC-002", cliente: "João Souza", regional: "Parnaíba", status: "Pendente", dificuldade: "Médio" },
+            { stc: "STC-003", cliente: "Ana Costa", regional: "Picos", status: "Reprovado", dificuldade: "Difícil" },
+            { stc: "STC-004", cliente: "Lucas Lima", regional: "Floriano", status: "Aprovado", dificuldade: "Médio" },
+            { stc: "STC-005", cliente: "Juliana Rocha", regional: "Timon", status: "Pendente", dificuldade: "Fácil" }
+          ];
+        } else {
+          notas = await res.json();
+        }
+
+        const tbody = document.getElementById('listaIndicadores');
+        tbody.innerHTML = '';
+
+        if (notas.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#777;">Nenhuma nota registrada ainda.</td></tr>';
+          return;
+        }
+
+        notas.forEach(n => {
+          let classe;
+          if (n.dificuldade === 'Fácil') classe = 'facil';
+          else if (n.dificuldade === 'Médio') classe = 'medio';
+          else classe = 'dificil';
+
+          tbody.innerHTML += `
+            <tr>
+              <td>${n.stc}</td>
+              <td>${n.cliente}</td>
+              <td>${n.regional}</td>
+              <td>${n.status}</td>
+              <td class="nivel ${classe}">${n.dificuldade}</td>
+            </tr>`;
+        });
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao carregar indicadores.');
+      }
+    }
+
+    carregarIndicadores();
+  </script>
+</body>
+</html>

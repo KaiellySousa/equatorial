@@ -8,31 +8,38 @@ const __dirname = path.dirname(__filename);
 
 export async function openDb() {
   return open({
-    filename: path.join(__dirname, "database.db"), // vai criar o banco dentro da pasta js
+    filename: path.join(__dirname, "database.db"),
     driver: sqlite3.Database
   });
 }
 
 export async function criarTabelas() {
   const db = await openDb();
+
+  // Tabela de usuários
   await db.exec(`
-   CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL,
-    token_redefinicao VARCHAR(255)
-);
-
-
-    CREATE TABLE IF NOT EXISTS notas (
+    CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      usuario_id INTEGER NOT NULL,
-      cliente TEXT,
-      status TEXT,
-      data_hora TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
+      nome TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      senha TEXT NOT NULL
     );
   `);
-  console.log("Tabelas criadas ou já existentes");
+
+  // Tabela de notas
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS notas (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      usuario TEXT NOT NULL,
+      regional TEXT NOT NULL,
+      instalacao TEXT NOT NULL,
+      cliente TEXT NOT NULL,
+      stc TEXT NOT NULL,
+      status TEXT NOT NULL,
+      dificuldade TEXT NOT NULL,
+      data_hora TEXT DEFAULT (datetime('now', 'localtime'))
+    );
+  `);
+
+  console.log("Banco SQLite pronto e tabelas criadas");
 }

@@ -30,12 +30,19 @@ form.addEventListener('submit', async (e) => {
   const senha = document.getElementById('senha').value;
 
   if (!email.endsWith("@equatorialenergia.com.br")) {
-    Swal.fire({ icon: 'warning', title: 'Somente e-mails @equatorialenergia.com.br são permitidos!' });
+    Swal.fire({
+      icon: 'warning',
+      title: 'Atenção!',
+      text: 'Somente e-mails @equatorialenergia.com.br são permitidos.',
+      background: '#f5f8ff',
+      color: '#002d6c',
+      confirmButtonColor: '#007bff'
+    });
     return;
   }
 
   try {
-    const res = await fetch('../app/controllers/cadastro.php', {
+    const res = await fetch('/cadastro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, email, senha })
@@ -43,22 +50,39 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    if (res.ok && data.status === 'ok') {
+    if (data.sucesso) {
       Swal.fire({
         icon: 'success',
-        title: data.mensagem,
-        timer: 1500,
+        title: data.titulo,
+        text: data.mensagem,
+        background: '#f5f8ff',
+        color: '#002d6c',
+        confirmButtonColor: '#007bff',
+        timer: 1600,
         showConfirmButton: false
       }).then(() => {
         form.reset();
         window.location.href = "login.html";
       });
     } else {
-      Swal.fire({ icon: 'error', title: data.erro || 'Erro ao cadastrar.' });
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro no cadastro',
+        text: data.erro || 'Não foi possível cadastrar.',
+        background: '#f5f8ff',
+        color: '#002d6c',
+        confirmButtonColor: '#007bff'
+      });
     }
   } catch (err) {
-    console.error(err);
-    Swal.fire({ icon: 'error', title: 'Erro no servidor. Tente novamente.' });
+    Swal.fire({
+      icon: 'error',
+      title: 'Falha no servidor',
+      text: 'Não foi possível conectar. Tente novamente.',
+      background: '#f5f8ff',
+      color: '#002d6c',
+      confirmButtonColor: '#007bff'
+    });
   }
 });
 </script>
