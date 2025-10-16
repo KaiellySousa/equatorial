@@ -2,28 +2,15 @@
   "name": "projeto-equatorial",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
-  },
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KaiellySousa/equatorial.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/KaiellySousa/equatorial/issues"
-  },
-  "homepage": "https://github.com/KaiellySousa/equatorial#readme"
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "pg": "^8.16.3"
+  }
 }

@@ -6,6 +6,31 @@
 <title>Login - Equatorial Piauí</title>
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  height: 45px;
+  gap: 8px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+.google-btn img {
+  width: 20px;
+}
+.google-btn:hover {
+  background: #f1f1f1;
+}
+</style>
 </head>
 <body>
 <div class="login-box">
@@ -15,6 +40,14 @@
     <input type="password" id="senha" name="senha" placeholder="Senha" required>
     <button type="submit">Entrar</button>
   </form>
+
+  <div style="margin-top:15px;">
+    <button id="googleLogin" class="google-btn">
+      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+      Continuar com Google
+    </button>
+  </div>
+
   <a href="esqueci_senha.html">Esqueci minha senha</a><br>
   <a href="cadastro.html">Cadastrar</a>
 </div>
@@ -24,11 +57,11 @@ const form = document.getElementById('formLogin');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = document.getElementById('email').value;
+  const email = document.getElementById('email').value.trim();
   const senha = document.getElementById('senha').value;
 
   try {
-    const res = await fetch('http://localhost:3000/login', {  // 🔹 CORRIGIDO
+    const res = await fetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha })
@@ -41,10 +74,7 @@ form.addEventListener('submit', async (e) => {
         icon: 'success',
         title: data.titulo,
         text: data.mensagem,
-        background: '#f5f8ff',
-        color: '#002d6c',
-        confirmButtonColor: '#007bff',
-        timer: 1500,
+        timer: 1400,
         showConfirmButton: false
       }).then(() => {
         localStorage.setItem('usuario', data.nome);
@@ -55,9 +85,6 @@ form.addEventListener('submit', async (e) => {
         icon: 'error',
         title: 'Erro no login',
         text: data.erro || 'E-mail ou senha incorretos!',
-        background: '#f5f8ff',
-        color: '#002d6c',
-        confirmButtonColor: '#007bff'
       });
     }
   } catch (err) {
@@ -65,12 +92,54 @@ form.addEventListener('submit', async (e) => {
       icon: 'error',
       title: 'Falha no servidor',
       text: 'Não foi possível conectar. Tente novamente.',
-      background: '#f5f8ff',
-      color: '#002d6c',
-      confirmButtonColor: '#007bff'
+    });
+  }
+});
+
+// --- Login com Google ---
+document.getElementById('googleLogin').addEventListener('click', async () => {
+  try {
+    const googleUser = await new Promise((resolve, reject) => {
+      google.accounts.id.initialize({
+        client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI",
+        callback: resolve
+      });
+      google.accounts.id.prompt();
+    });
+
+    const token = googleUser.credential;
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    const email = decoded.email;
+
+    if (!email.endsWith('@equatorialenergia.com.br')) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Acesso restrito',
+        text: 'Somente e-mails @equatorialenergia.com.br são permitidos.'
+      });
+      return;
+    }
+
+    localStorage.setItem('usuario', decoded.name);
+    Swal.fire({
+      icon: 'success',
+      title: 'Login via Google realizado!',
+      text: `Bem-vinda, ${decoded.name.split(' ')[0]}!`,
+      timer: 1500,
+      showConfirmButton: false
+    }).then(() => {
+      window.location.href = 'home.html';
+    });
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao autenticar com o Google',
+      text: 'Tente novamente mais tarde.'
     });
   }
 });
 </script>
 </body>
 </html>
+s

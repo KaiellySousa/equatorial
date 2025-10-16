@@ -1,0 +1,13 @@
+# Ignorar o arquivo de variáveis de ambiente
+.env
+
+# Pastas e arquivos automáticos
+node_modules/
+.vscode/
+dist/
+build/
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db

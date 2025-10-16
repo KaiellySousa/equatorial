@@ -1,8 +1,6 @@
 /* ============================================
    ESTILO GERAL - Equatorial Piauí
    ============================================ */
-
-/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -70,10 +68,26 @@ button:hover, .btn:hover {
   text-decoration: underline;
 }
 
-/* ============================================
-   PÁGINAS DE LOGIN / CADASTRO / ESQUECI SENHA
-   ============================================ */
+/* --- BOTÃO SAIR --- */
+.btn-logout {
+  background-color: #ffffff;
+  color: #2d6cdf;
+  font-weight: bold;
+  border: 2px solid #ffffff;
+  border-radius: 25px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.btn-logout:hover {
+  background-color: #e8eef9;
+  color: #1f4da5;
+  border-color: #d6e0fa;
+}
 
+/* ============================================
+   LOGIN / CADASTRO
+   ============================================ */
 .login-box {
   background: white;
   max-width: 400px;
@@ -113,7 +127,7 @@ button:hover, .btn:hover {
 }
 
 /* ============================================
-   DASHBOARD (home.html)
+   DASHBOARD E TABELAS
    ============================================ */
 .dashboard {
   max-width: 1100px;
@@ -128,8 +142,6 @@ button:hover, .btn:hover {
 .dashboard h1 span {
   color: #2d6cdf;
 }
-
-/* Cards */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -157,39 +169,6 @@ button:hover, .btn:hover {
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
-/* Top usuário */
-.top-usuario {
-  text-align: center;
-  margin: 30px 0;
-}
-.top-usuario h3 {
-  color: #2d6cdf;
-  margin-bottom: 5px;
-}
-
-/* Gráfico */
-.grafico {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin: 40px auto;
-  max-width: 800px;
-}
-
-/* Últimas notas */
-.ultimas-notas {
-  margin-top: 40px;
-}
-.ultimas-notas h3 {
-  text-align: center;
-  color: #2d6cdf;
-  margin-bottom: 15px;
-}
-
-/* ============================================
-   TABELAS (histórico, últimas notas)
-   ============================================ */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -211,26 +190,6 @@ table tr:nth-child(even) {
 }
 table tr:hover {
   background: #e6edff;
-}
-
-/* ============================================
-   FORMULÁRIOS GERAIS
-   ============================================ */
-form label {
-  font-weight: 500;
-  color: #333;
-}
-form input, form select, form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-form input:focus, form select:focus, form textarea:focus {
-  border-color: #2d6cdf;
-  outline: none;
 }
 
 /* ============================================
@@ -265,26 +224,4 @@ footer {
 .social-icons a:hover {
   background: #00aeef;
   color: white;
-}
-
-/* ============================================
-   MENSAGENS / ALERTAS
-   ============================================ */
-.mensagem-erro {
-  color: #e53935;
-  background: #ffecec;
-  border: 1px solid #f5a4a4;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 10px;
-}
-.mensagem-sucesso {
-  color: #2e7d32;
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  margin-top: 10px;
 }

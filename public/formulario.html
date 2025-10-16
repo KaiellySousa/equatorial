@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Registrar Nota - Equatorial Piauí</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="logo">
+    <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="home.html"><strong>Home</strong></a></li>
+      <li><a href="formulario.html"><strong>Formulário</strong></a></li>
+      <li><a href="historico.html"><strong>Histórico</strong></a></li>
+      <li><button id="logout" class="btn-logout">Sair</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2 style="text-align:center;margin-top:25px;">Registrar Nota</h2>
+
+  <form id="formNota" style="max-width:600px;margin:30px auto;background:white;padding:30px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.05);">
+    <label>Regional:</label>
+    <input type="text" id="regional" required>
+
+    <label>Nº da Instalação:</label>
+    <input type="text" id="instalacao" required>
+
+    <label>Pessoa que registrou:</label>
+    <input type="text" id="cliente" required>
+
+    <label>STC:</label>
+    <select id="stc" required>
+      <option value="">Selecione...</option>
+      <option value="Aprovado">Sim</option>
+      <option value="Reprovado">Não</option>
+      <option value="Pendente">Pendente</option>
+    </select>
+
+    <label>Nível de Dificuldade:</label>
+    <select id="dificuldade" required>
+      <option value="">Selecione...</option>
+      <option value="Fácil">Fácil</option>
+      <option value="Médio">Médio</option>
+      <option value="Difícil">Difícil</option>
+    </select>
+
+    <label>Status:</label>
+    <input type="text" id="status" required>
+
+    <button type="submit">Registrar</button>
+  </form>
+</main>
+
+<script>
+  // --- autenticação ---
+  const usuario = localStorage.getItem('usuario');
+  if (!usuario) window.location.href = 'login.html';
+
+  // --- botão sair ---
+  document.getElementById('logout').addEventListener('click', () => {
+    localStorage.removeItem('usuario');
+    window.location.href = 'login.html';
+  });
+
+  // --- envio do formulário ---
+  document.getElementById('formNota').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const dados = {
+      usuario,
+      regional: document.getElementById('regional').value,
+      instalacao: document.getElementById('instalacao').value,
+      cliente: document.getElementById('cliente').value,
+      stc: document.getElementById('stc').value,
+      status: document.getElementById('status').value,
+      dificuldade: document.getElementById('dificuldade').value
+    };
+
+    try {
+      const res = await fetch('/notas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      const data = await res.json();
+      alert(data.mensagem || 'Nota registrada com sucesso!');
+      e.target.reset();
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao registrar nota. Tente novamente.');
+    }
+  });
+</script>
+</body>
+</html>
