@@ -1,5 +1,3 @@
-// server.js — Equatorial Piauí
-
 import express from "express";
 import bcrypt from "bcrypt";
 import cors from "cors";
@@ -55,7 +53,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-await criarTabelas();
+// === ROTAS ===
 
 app.post("/cadastro", async (req, res) => {
   const { nome, email, senha } = req.body;
@@ -64,10 +62,7 @@ app.post("/cadastro", async (req, res) => {
 
   try {
     const client = await pool.connect();
-    const existe = await client.query(
-      "SELECT id FROM usuarios WHERE email = $1",
-      [email]
-    );
+    const existe = await client.query("SELECT id FROM usuarios WHERE email = $1", [email]);
     if (existe.rows.length > 0) {
       client.release();
       return res.status(400).json({ erro: "E-mail já cadastrado." });
@@ -96,10 +91,7 @@ app.post("/login", async (req, res) => {
 
   try {
     const client = await pool.connect();
-    const result = await client.query(
-      "SELECT * FROM usuarios WHERE email = $1",
-      [email]
-    );
+    const result = await client.query("SELECT * FROM usuarios WHERE email = $1", [email]);
     const user = result.rows[0];
     client.release();
 
@@ -119,17 +111,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/notas", async (req, res) => {
-  const { usuario, regional, instalacao, cliente, stc, status, dificuldade } =
-    req.body;
-  if (
-    !usuario ||
-    !regional ||
-    !instalacao ||
-    !cliente ||
-    !stc ||
-    !status ||
-    !dificuldade
-  ) {
+  const { usuario, regional, instalacao, cliente, stc, status, dificuldade } = req.body;
+  if (!usuario || !regional || !instalacao || !cliente || !stc || !status || !dificuldade) {
     return res.status(400).json({ erro: "Preencha todos os campos." });
   }
 
@@ -177,9 +160,20 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
+// === INICIALIZAÇÃO CORRIGIDA ===
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`Servidor rodando em: http://localhost:${PORT}`)
-);
+
+async function startServer() {
+  try {
+    await criarTabelas();
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando em: http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error("Erro ao iniciar o servidor:", err);
+  }
+}
+
+startServer();
 
 export default app;
