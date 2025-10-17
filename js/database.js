@@ -9,7 +9,7 @@ const { Pool } = pg;
 // conexão com o banco PostgreSQL do Railway
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false } // obrigatório para o Railway funcionar
+  ssl: { rejectUnauthorized: false } 
 });
 
 export async function criarTabelas() {
