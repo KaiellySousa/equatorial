@@ -1,158 +1,189 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro - Equatorial Piauí</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<style>
-.google-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  color: #555;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  font-weight: 500;
-  cursor: pointer;
-  width: 100%;
-  height: 45px;
-  gap: 8px;
-  margin-top: 15px;
-  transition: 0.3s;
-}
-.google-btn img {
-  width: 20px;
-}
-.google-btn:hover {
-  background: #f1f1f1;
-}
-</style>
-</head>
-<body>
-<div class="login-box">
-  <h2>Cadastro</h2>
-  <form id="formCadastro">
-    <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
-    <input type="email" id="email" name="email" placeholder="E-mail" required>
-    <input type="password" id="senha" name="senha" placeholder="Senha" required>
-    <button type="submit">Cadastrar</button>
-  </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro - Equatorial Piauí</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      .google-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: #555;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+        height: 45px;
+        gap: 8px;
+        margin-top: 15px;
+        transition: 0.3s;
+      }
+      .google-btn img {
+        width: 20px;
+      }
+      .google-btn:hover {
+        background: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <h2>Cadastro</h2>
+      <form id="formCadastro">
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder="Nome completo"
+          required
+        />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="E-mail"
+          required
+        />
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Senha"
+          required
+        />
+        <button type="submit">Cadastrar</button>
+      </form>
 
-  <button id="googleCadastro" class="google-btn">
-    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
-    Cadastrar com Google
-  </button>
+      <button id="googleCadastro" class="google-btn">
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google"
+        />
+        Cadastrar com Google
+      </button>
 
-  <a href="login.html">Já tenho conta</a>
-</div>
+      <a href="login.html">Já tenho conta</a>
+    </div>
 
-<script>
-const form = document.getElementById('formCadastro');
+    <script>
+      const form = document.getElementById("formCadastro");
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-  const nome = document.getElementById('nome').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value;
+        const nome = document.getElementById("nome").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const senha = document.getElementById("senha").value;
 
-  if (!email.endsWith("@equatorialenergia.com.br")) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Acesso restrito',
-      text: 'Somente e-mails @equatorialenergia.com.br são permitidos!'
-    });
-    return;
-  }
+        if (!email.endsWith("@equatorialenergia.com.br")) {
+          Swal.fire({
+            icon: "warning",
+            title: "Acesso restrito",
+            text: "Somente e-mails @equatorialenergia.com.br são permitidos!",
+          });
+          return;
+        }
 
-  try {
-    const res = await fetch('/cadastro', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, email, senha })
-    });
+        try {
+          const res = await fetch("/cadastro", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nome, email, senha }),
+          });
 
-    const data = await res.json();
+          const data = await res.json();
 
-    if (data.sucesso) {
-      Swal.fire({
-        icon: 'success',
-        title: data.titulo,
-        text: data.mensagem,
-        timer: 1500,
-        showConfirmButton: false
-      }).then(() => {
-        window.location.href = "login.html";
+          if (data.sucesso) {
+            Swal.fire({
+              icon: "success",
+              title: data.titulo,
+              text: data.mensagem,
+              timer: 1500,
+              showConfirmButton: false,
+            }).then(() => {
+              window.location.href = "login.html";
+            });
+          } else {
+            Swal.fire({ icon: "error", title: "Erro", text: data.erro });
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Erro no servidor",
+            text: "Tente novamente.",
+          });
+        }
       });
-    } else {
-      Swal.fire({ icon: 'error', title: 'Erro', text: data.erro });
-    }
-  } catch (err) {
-    Swal.fire({ icon: 'error', title: 'Erro no servidor', text: 'Tente novamente.' });
-  }
-});
 
-// --- Cadastro via Google ---
-document.getElementById('googleCadastro').addEventListener('click', async () => {
-  try {
-    const googleUser = await new Promise((resolve, reject) => {
-      google.accounts.id.initialize({
-        client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI",
-        callback: resolve
-      });
-      google.accounts.id.prompt();
-    });
+      // --- Cadastro via Google ---
+      document
+        .getElementById("googleCadastro")
+        .addEventListener("click", async () => {
+          try {
+            const googleUser = await new Promise((resolve, reject) => {
+              google.accounts.id.initialize({
+                client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI",
+                callback: resolve,
+              });
+              google.accounts.id.prompt();
+            });
 
-    const token = googleUser.credential;
-    const decoded = JSON.parse(atob(token.split('.')[1]));
-    const email = decoded.email;
+            const token = googleUser.credential;
+            const decoded = JSON.parse(atob(token.split(".")[1]));
+            const email = decoded.email;
 
-    if (!email.endsWith('@equatorialenergia.com.br')) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Acesso restrito',
-        text: 'Somente e-mails @equatorialenergia.com.br são permitidos!'
-      });
-      return;
-    }
+            if (!email.endsWith("@equatorialenergia.com.br")) {
+              Swal.fire({
+                icon: "warning",
+                title: "Acesso restrito",
+                text: "Somente e-mails @equatorialenergia.com.br são permitidos!",
+              });
+              return;
+            }
 
-    const nome = decoded.name;
+            const nome = decoded.name;
 
-    const res = await fetch('/cadastro', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, email, senha: 'autenticacao_google' })
-    });
+            const res = await fetch("/cadastro", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                nome,
+                email,
+                senha: "autenticacao_google",
+              }),
+            });
 
-    const data = await res.json();
+            const data = await res.json();
 
-    if (data.sucesso) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Cadastro via Google concluído!',
-        text: `Bem-vinda, ${nome.split(' ')[0]}!`,
-        timer: 1500,
-        showConfirmButton: false
-      }).then(() => {
-        localStorage.setItem('usuario', nome);
-        window.location.href = 'home.html';
-      });
-    } else {
-      Swal.fire({ icon: 'error', title: 'Erro', text: data.erro });
-    }
-  } catch (err) {
-    console.error(err);
-    Swal.fire({
-      icon: 'error',
-      title: 'Erro ao autenticar com o Google',
-      text: 'Tente novamente.'
-    });
-  }
-});
-</script>
-</body>
+            if (data.sucesso) {
+              Swal.fire({
+                icon: "success",
+                title: "Cadastro via Google concluído!",
+                text: `Bem-vinda, ${nome.split(" ")[0]}!`,
+                timer: 1500,
+                showConfirmButton: false,
+              }).then(() => {
+                localStorage.setItem("usuario", nome);
+                window.location.href = "home.html";
+              });
+            } else {
+              Swal.fire({ icon: "error", title: "Erro", text: data.erro });
+            }
+          } catch (err) {
+            console.error(err);
+            Swal.fire({
+              icon: "error",
+              title: "Erro ao autenticar com o Google",
+              text: "Tente novamente.",
+            });
+          }
+        });
+    </script>
+  </body>
 </html>

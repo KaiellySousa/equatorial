@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Registrar Nota</title>
-<link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-<header class="navbar">
-  <div class="logo">
-    <img src="assets\imagens\energia-equatorial-removebg-preview.png" alt="Equatorial Energia">
-  </div>
-  <nav>
-    <ul>
-      <li><a href="home.html"><strong>Home</strong></a></li>
-      <li><a href="formulario.html"><strong>Formulário</strong></a></li>
-      <li><a href="historico.html"><strong>Histórico</strong></a></li>
-      <li><a href="#" id="logout"><strong><button>SAIR</button></strong></a></li>
-    </ul>
-  </nav>
-</header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registrar Nota</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <img
+          src="assets\imagens\energia-equatorial-removebg-preview.png"
+          alt="Equatorial Energia"
+        />
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="home.html"><strong>Home</strong></a>
+          </li>
+          <li>
+            <a href="formulario.html"><strong>Formulário</strong></a>
+          </li>
+          <li>
+            <a href="historico.html"><strong>Histórico</strong></a>
+          </li>
+          <li>
+            <a href="#" id="logout"
+              ><strong><button>SAIR</button></strong></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-<main>
-<h2>Registrar Nota</h2>
-<form action="../app/controllers/NotaController.php" method="POST" enctype="multipart/form-data">
-    <label>Regional:</label>
-    <input type="text" name="regional" required>
-    <label>Nº da Instalação:</label>
-    <input type="text" name="instalacao" required>
-    <label>Cliente:</label>
-    <input type="text" name="cliente" required>
-    <label>Observação:</label>
-    <textarea name="observacao"></textarea>
-    <label>STC:</label>
-    <select name="stc" required>
-        <option value="">Selecione...</option>
-        <option value="Aprovado">Sim</option>
-        <option value="Reprovado">Não</option>
-        <option value="Pendente">Pendente</option>
-    </select>
-    <label>Foto:</label>
-    <input type="file" name="foto" accept="image/*">
-    <button type="submit">Registrar</button>
-</form>
-</main>
-<script>
-  const usuario = localStorage.getItem('usuario');
-if (!usuario) {
-  window.location.href = 'login.html';
-} else {
-  const el = document.getElementById('usuarioNome');
-  if (el) el.textContent = usuario;
-}
+    <main>
+      <h2>Registrar Nota</h2>
+      <form
+        action="../app/controllers/NotaController.php"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <label>Regional:</label>
+        <input type="text" name="regional" required />
+        <label>Nº da Instalação:</label>
+        <input type="text" name="instalacao" required />
+        <label>Cliente:</label>
+        <input type="text" name="cliente" required />
+        <label>Observação:</label>
+        <textarea name="observacao"></textarea>
+        <label>STC:</label>
+        <select name="stc" required>
+          <option value="">Selecione...</option>
+          <option value="Aprovado">Sim</option>
+          <option value="Reprovado">Não</option>
+          <option value="Pendente">Pendente</option>
+        </select>
+        <label>Foto:</label>
+        <input type="file" name="foto" accept="image/*" />
+        <button type="submit">Registrar</button>
+      </form>
+    </main>
+    <script>
+      const usuario = localStorage.getItem("usuario");
+      if (!usuario) {
+        window.location.href = "login.html";
+      } else {
+        const el = document.getElementById("usuarioNome");
+        if (el) el.textContent = usuario;
+      }
 
-document.getElementById('logout').addEventListener('click', () => {
-  localStorage.removeItem('usuario');
-  window.location.href = 'login.html';
-});
-
-</script>
-</body>
+      document.getElementById("logout").addEventListener("click", () => {
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html";
+      });
+    </script>
+  </body>
 </html>

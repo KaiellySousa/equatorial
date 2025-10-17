@@ -1,201 +1,365 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Relatório de Produtividade — Equatorial Piauí</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatório de Produtividade — Equatorial Piauí</title>
 
-<!-- libs -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-<link rel="stylesheet" href="assets/css/style.css">
+    <!-- libs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
 
-<header class="navbar">
-  <div class="logo">
-    <img src="assets\imagens\energia-equatorial-removebg-preview.png" alt="Equatorial Energia">
-  </div>
-  <nav>
-    <ul>
-      <li><a href="home.html"><strong>Home</strong></a></li>
-      <li><a href="formulario.html"><strong>Formulário</strong></a></li>
-      <li><a href="historico.html"><strong>Histórico</strong></a></li>
-      <li><a href="#" id="logout"><strong><button>SAIR</button></strong></a></li>
-    </ul>
-  </nav>
-</header>
-
-<style>
-  :root {
-    --eq-blue:#0a3b71; --eq-light:#f6f8fc; --card:#f9fbff; --muted:#666;
-  }
-  body{margin:0;background:var(--eq-light);color:#333;font-family:Inter,system-ui,Arial}
-  .wrap{max-width:1200px;margin:32px auto;padding:24px;background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
-  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .brand img{height:48px;object-fit:contain}
-  h1{margin:0;color:var(--eq-blue)}
-  .subtitle{color:var(--muted);margin:4px 0 12px}
-  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0 20px}
-  .toolbar > *{padding:10px 12px;border:1px solid #d9dfe7;border-radius:10px;background:#fff}
-  .btn{cursor:pointer;border:0;background:var(--eq-blue);color:#fff;border-radius:10px;padding:10px 14px}
-  .btn.alt{background:#fff;color:var(--eq-blue);border:1px solid var(--eq-blue)}
-  .grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:14px;margin:8px 0 18px}
-  .card{background:var(--card);border-left:5px solid var(--eq-blue);border-radius:12px;padding:14px 16px}
-  .card h3{margin:0 0 6px;color:var(--eq-blue);font-size:14px}
-  .card p{margin:0;font-size:22px;font-weight:700}
-  .panel{background:#fff;border:1px solid #e7ecf3;border-radius:12px;padding:14px}
-  table{width:100%;border-collapse:collapse}
-  th,td{padding:10px;border-bottom:1px solid #edf1f7;font-size:14px}
-  th{background:#f2f6ff;text-align:left}
-  tr:hover td{background:#fafcff}
-  .kicker{margin-top:18px;background:#f3f7ff;border-left:5px solid var(--eq-blue);border-radius:10px;padding:14px}
-  .muted{color:var(--muted)}
-  @media (max-width:980px){.grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:640px){.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <img id="logo" src="assets\imagens\energia-azul-removebg-preview.png" alt="Equatorial">
-      <div>
-        <h1>Relatório de Produtividade</h1>
-        <div class="subtitle">Notas baixadas por colaborador • visão mensal</div>
+    <header class="navbar">
+      <div class="logo">
+        <img
+          src="assets\imagens\energia-equatorial-removebg-preview.png"
+          alt="Equatorial Energia"
+        />
       </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="home.html"><strong>Home</strong></a>
+          </li>
+          <li>
+            <a href="formulario.html"><strong>Formulário</strong></a>
+          </li>
+          <li>
+            <a href="historico.html"><strong>Histórico</strong></a>
+          </li>
+          <li>
+            <a href="#" id="logout"
+              ><strong><button>SAIR</button></strong></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <style>
+      :root {
+        --eq-blue: #0a3b71;
+        --eq-light: #f6f8fc;
+        --card: #f9fbff;
+        --muted: #666;
+      }
+      body {
+        margin: 0;
+        background: var(--eq-light);
+        color: #333;
+        font-family: Inter, system-ui, Arial;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 32px auto;
+        padding: 24px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      }
+      header {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .brand img {
+        height: 48px;
+        object-fit: contain;
+      }
+      h1 {
+        margin: 0;
+        color: var(--eq-blue);
+      }
+      .subtitle {
+        color: var(--muted);
+        margin: 4px 0 12px;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin: 12px 0 20px;
+      }
+      .toolbar > * {
+        padding: 10px 12px;
+        border: 1px solid #d9dfe7;
+        border-radius: 10px;
+        background: #fff;
+      }
+      .btn {
+        cursor: pointer;
+        border: 0;
+        background: var(--eq-blue);
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px 14px;
+      }
+      .btn.alt {
+        background: #fff;
+        color: var(--eq-blue);
+        border: 1px solid var(--eq-blue);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 14px;
+        margin: 8px 0 18px;
+      }
+      .card {
+        background: var(--card);
+        border-left: 5px solid var(--eq-blue);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+      .card h3 {
+        margin: 0 0 6px;
+        color: var(--eq-blue);
+        font-size: 14px;
+      }
+      .card p {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #e7ecf3;
+        border-radius: 12px;
+        padding: 14px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #edf1f7;
+        font-size: 14px;
+      }
+      th {
+        background: #f2f6ff;
+        text-align: left;
+      }
+      tr:hover td {
+        background: #fafcff;
+      }
+      .kicker {
+        margin-top: 18px;
+        background: #f3f7ff;
+        border-left: 5px solid var(--eq-blue);
+        border-radius: 10px;
+        padding: 14px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <img
+            id="logo"
+            src="assets\imagens\energia-azul-removebg-preview.png"
+            alt="Equatorial"
+          />
+          <div>
+            <h1>Relatório de Produtividade</h1>
+            <div class="subtitle">
+              Notas baixadas por colaborador • visão mensal
+            </div>
+          </div>
+        </div>
+        <div class="muted">v1.1</div>
+      </header>
+
+      <div class="toolbar">
+        <label
+          ><b>Mês:</b>
+          <select id="mes"></select>
+        </label>
+
+        <label
+          ><b>Pesquisar:</b>
+          <input id="busca" placeholder="nome, nota, status..." />
+        </label>
+
+        <label class="btn alt">
+          Importar XLSX/CSV
+          <input
+            type="file"
+            id="file"
+            accept=".csv,.xlsx"
+            style="display: none"
+          />
+        </label>
+
+        <button class="btn" id="expCsv">Exportar CSV</button>
+        <button class="btn" id="expXls">Exportar Excel</button>
+        <button class="btn" id="expPdf">Exportar PDF</button>
+        <button class="btn alt" id="expPng">Baixar Gráfico</button>
+      </div>
+
+      <section class="grid" id="kpis">
+        <div class="card">
+          <h3>Total de notas</h3>
+          <p id="kpiTotal">—</p>
+        </div>
+        <div class="card">
+          <h3>Média por pessoa</h3>
+          <p id="kpiMedia">—</p>
+        </div>
+        <div class="card">
+          <h3>Top do mês</h3>
+          <p id="kpiTop">—</p>
+        </div>
+        <div class="card">
+          <h3>Menor desempenho</h3>
+          <p id="kpiLow">—</p>
+        </div>
+      </section>
+
+      <!-- grafido-->
+      <section class="panel" style="margin-bottom: 16px">
+        <h3 class="muted">Distribuição por colaborador</h3>
+        <canvas id="chart"></canvas>
+      </section>
+
+      <!--tabelinha-->
+      <section class="panel">
+        <h3 class="muted">Detalhamento</h3>
+        <table id="tabela">
+          <thead>
+            <tr>
+              <th>UF</th>
+              <th>Nota</th>
+              <th>Instalação</th>
+              <th>Tipo</th>
+              <th>Grupo</th>
+              <th>Status</th>
+              <th>Tempo (dias)</th>
+              <th>Data</th>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="muted" id="count" style="padding: 8px 0"></div>
+      </section>
+
+      <!-- TEXTO DE ANÁLISE -->
+      <section class="kicker" id="analise">
+        <p class="muted">Carregando análise…</p>
+      </section>
     </div>
-    <div class="muted">v1.1</div>
-  </header>
 
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <label><b>Mês:</b>
-      <select id="mes"></select>
-    </label>
+    <script>
+      const usuario = localStorage.getItem("usuario");
+      if (!usuario) {
+        window.location.href = "login.html";
+      } else {
+        const el = document.getElementById("usuarioNome");
+        if (el) el.textContent = usuario;
+      }
 
-    <label><b>Pesquisar:</b>
-      <input id="busca" placeholder="nome, nota, status..." />
-    </label>
+      document.getElementById("logout").addEventListener("click", () => {
+        localStorage.removeItem("usuario");
+        window.location.href = "login.html";
+      });
 
-    <label class="btn alt">
-      Importar XLSX/CSV
-      <input type="file" id="file" accept=".csv,.xlsx" style="display:none" />
-    </label>
+      let raw = [];
+      let chart;
+      let ordem = { col: "Nome", dir: 1 };
 
-    <button class="btn" id="expCsv">Exportar CSV</button>
-    <button class="btn" id="expXls">Exportar Excel</button>
-    <button class="btn" id="expPdf">Exportar PDF</button>
-    <button class="btn alt" id="expPng">Baixar Gráfico</button>
-  </div>
+      const tbody = document.querySelector("#tabela tbody");
+      const mesSel = document.getElementById("mes");
+      const busca = document.getElementById("busca");
+      const count = document.getElementById("count");
+      const kTotal = document.getElementById("kpiTotal");
+      const kMedia = document.getElementById("kpiMedia");
+      const kTop = document.getElementById("kpiTop");
+      const kLow = document.getElementById("kpiLow");
 
-  <!-- KPIs -->
-  <section class="grid" id="kpis">
-    <div class="card"><h3>Total de notas</h3><p id="kpiTotal">—</p></div>
-    <div class="card"><h3>Média por pessoa</h3><p id="kpiMedia">—</p></div>
-    <div class="card"><h3>Top do mês</h3><p id="kpiTop">—</p></div>
-    <div class="card"><h3>Menor desempenho</h3><p id="kpiLow">—</p></div>
-  </section>
+      function num(x) {
+        const n = Number(String(x).replace(",", "."));
+        return isFinite(n) ? n : 0;
+      }
 
-  <!-- GRÁFICO -->
-  <section class="panel" style="margin-bottom:16px">
-    <h3 class="muted">Distribuição por colaborador</h3>
-    <canvas id="chart"></canvas>
-  </section>
+      function fmtMes(yyyymm) {
+        const [y, m] = yyyymm.split("-");
+        const nomes = {
+          "01": "Jan",
+          "02": "Fev",
+          "03": "Mar",
+          "04": "Abr",
+          "05": "Mai",
+          "06": "Jun",
+          "07": "Jul",
+          "08": "Ago",
+          "09": "Set",
+          10: "Out",
+          11: "Nov",
+          12: "Dez",
+        };
+        return `${nomes[m]}/${y}`;
+      }
 
-  <!-- TABELA -->
-  <section class="panel">
-    <h3 class="muted">Detalhamento</h3>
-    <table id="tabela">
-      <thead>
-        <tr>
-          <th>UF</th>
-          <th>Nota</th>
-          <th>Instalação</th>
-          <th>Tipo</th>
-          <th>Grupo</th>
-          <th>Status</th>
-          <th>Tempo (dias)</th>
-          <th>Data</th>
-          <th>Nome</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <div class="muted" id="count" style="padding:8px 0"></div>
-  </section>
+      function byMonth(arr, yyyymm) {
+        return arr.filter((r) => (r.Data || "").startsWith(yyyymm));
+      }
 
-  <!-- TEXTO DE ANÁLISE -->
-  <section class="kicker" id="analise">
-    <p class="muted">Carregando análise…</p>
-  </section>
-</div>
+      function autocompletarMeses() {
+        const set = new Set(raw.map((r) => r.Data.slice(0, 7)));
+        const options = [...set].sort().map((v) => {
+          const opt = document.createElement("option");
+          opt.value = v;
+          opt.textContent = fmtMes(v);
+          return opt;
+        });
+        mesSel.innerHTML = "";
+        options.forEach((o) => mesSel.appendChild(o));
+        if (options.length) mesSel.value = options[options.length - 1].value;
+      }
 
-<script>
-    const usuario = localStorage.getItem('usuario');
-if (!usuario) {
-  window.location.href = 'login.html';
-} else {
-  const el = document.getElementById('usuarioNome');
-  if (el) el.textContent = usuario;
-}
+      function render() {
+        const yyyymm = mesSel.value;
+        const base = byMonth(raw, yyyymm);
+        const q = (busca.value || "").toLowerCase();
 
-document.getElementById('logout').addEventListener('click', () => {
-  localStorage.removeItem('usuario');
-  window.location.href = 'login.html';
-});
+        const rows = base.filter(
+          (r) =>
+            (r.Nome || "").toLowerCase().includes(q) ||
+            (r.Nota || "").toLowerCase().includes(q) ||
+            (r.Status || "").toLowerCase().includes(q)
+        );
 
-let raw = [];
-let chart;
-let ordem = {col:'Nome',dir:1};
-
-const tbody = document.querySelector('#tabela tbody');
-const mesSel = document.getElementById('mes');
-const busca = document.getElementById('busca');
-const count = document.getElementById('count');
-const kTotal = document.getElementById('kpiTotal');
-const kMedia = document.getElementById('kpiMedia');
-const kTop   = document.getElementById('kpiTop');
-const kLow   = document.getElementById('kpiLow');
-
-function num(x){ const n = Number(String(x).replace(',','.')); return isFinite(n)? n : 0; }
-
-function fmtMes(yyyymm){
-  const [y,m] = yyyymm.split('-');
-  const nomes = { '01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun','07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez' };
-  return `${nomes[m]}/${y}`;
-}
-
-function byMonth(arr, yyyymm){
-  return arr.filter(r => (r.Data || '').startsWith(yyyymm));
-}
-
-function autocompletarMeses(){
-  const set = new Set(raw.map(r=>r.Data.slice(0,7)));
-  const options = [...set].sort().map(v=>{
-    const opt = document.createElement('option');
-    opt.value = v; opt.textContent = fmtMes(v);
-    return opt;
-  });
-  mesSel.innerHTML = '';
-  options.forEach(o=>mesSel.appendChild(o));
-  if (options.length) mesSel.value = options[options.length-1].value;
-}
-
-function render(){
-  const yyyymm = mesSel.value;
-  const base = byMonth(raw, yyyymm);
-  const q = (busca.value||'').toLowerCase();
-
-  const rows = base.filter(r =>
-    (r.Nome||'').toLowerCase().includes(q) ||
-    (r.Nota||'').toLowerCase().includes(q) ||
-    (r.Status||'').toLowerCase().includes(q)
-  );
-
-  tbody.innerHTML = rows.map(r => `
+        tbody.innerHTML = rows
+          .map(
+            (r) => `
     <tr>
       <td>${r.UF}</td>
       <td>${r.Nota}</td>
@@ -207,205 +371,257 @@ function render(){
       <td>${r.Data}</td>
       <td>${r.Nome}</td>
     </tr>
-  `).join('');
-  count.textContent = `${rows.length} registros`;
+  `
+          )
+          .join("");
+        count.textContent = `${rows.length} registros`;
 
-  const mapa = new Map();
-  for (const r of base){
-    const k = r.Nome || '—';
-    mapa.set(k, (mapa.get(k)||0) + 1);
-  }
-  const agg = [...mapa.entries()].map(([nome,total])=>({nome,total}));
-  const totalNotas = agg.reduce((s,x)=>s+x.total,0);
-  const media = agg.length ? (totalNotas/agg.length) : 0;
-  const top = agg.slice().sort((a,b)=>b.total-a.total)[0] || {nome:'—',total:0};
-  const low = agg.slice().sort((a,b)=>a.total-b.total)[0] || {nome:'—',total:0};
-  const gap = Math.max(0, top.total - low.total);
+        const mapa = new Map();
+        for (const r of base) {
+          const k = r.Nome || "—";
+          mapa.set(k, (mapa.get(k) || 0) + 1);
+        }
+        const agg = [...mapa.entries()].map(([nome, total]) => ({
+          nome,
+          total,
+        }));
+        const totalNotas = agg.reduce((s, x) => s + x.total, 0);
+        const media = agg.length ? totalNotas / agg.length : 0;
+        const top = agg.slice().sort((a, b) => b.total - a.total)[0] || {
+          nome: "—",
+          total: 0,
+        };
+        const low = agg.slice().sort((a, b) => a.total - b.total)[0] || {
+          nome: "—",
+          total: 0,
+        };
+        const gap = Math.max(0, top.total - low.total);
 
-  kTotal.textContent = totalNotas.toLocaleString('pt-BR');
-  kMedia.textContent = media.toFixed(1);
-  kTop.textContent   = `${top.nome} (${top.total})`;
-  kLow.textContent   = `${low.nome} (${low.total})`;
+        kTotal.textContent = totalNotas.toLocaleString("pt-BR");
+        kMedia.textContent = media.toFixed(1);
+        kTop.textContent = `${top.nome} (${top.total})`;
+        kLow.textContent = `${low.nome} (${low.total})`;
 
-  const labels = agg.map(x=>x.nome);
-  const data = agg.map(x=>x.total);
-  if (!chart){
-    chart = new Chart(document.getElementById('chart'), {
-      type:'bar',
-      data:{ labels, datasets:[{ label:'Notas baixadas', data, backgroundColor: '#0a3b71' }] },
-      options:{
-        responsive:true,
-        plugins:{ legend:{display:false} },
-        scales:{ y:{ beginAtZero:true } }
-      }
-    });
-  } else {
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = data;
-    chart.update();
-  }
+        const labels = agg.map((x) => x.nome);
+        const data = agg.map((x) => x.total);
+        if (!chart) {
+          chart = new Chart(document.getElementById("chart"), {
+            type: "bar",
+            data: {
+              labels,
+              datasets: [
+                { label: "Notas baixadas", data, backgroundColor: "#0a3b71" },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+              scales: { y: { beginAtZero: true } },
+            },
+          });
+        } else {
+          chart.data.labels = labels;
+          chart.data.datasets[0].data = data;
+          chart.update();
+        }
 
-  document.getElementById('analise').innerHTML = `
-    <p>No mês <b>${fmtMes(yyyymm)}</b>, foram baixadas <b>${totalNotas}</b> notas por <b>${agg.length}</b> colaboradores (média <b>${media.toFixed(1)}</b> por pessoa).</p>
-    <p>Maior desempenho: <b>${top.nome}</b> (${top.total} notas) • Menor: <b>${low.nome}</b> (${low.total}).</p>
+        document.getElementById("analise").innerHTML = `
+    <p>No mês <b>${fmtMes(
+      yyyymm
+    )}</b>, foram baixadas <b>${totalNotas}</b> notas por <b>${
+          agg.length
+        }</b> colaboradores (média <b>${media.toFixed(1)}</b> por pessoa).</p>
+    <p>Maior desempenho: <b>${top.nome}</b> (${top.total} notas) • Menor: <b>${
+          low.nome
+        }</b> (${low.total}).</p>
     <p>Diferença de <b>${gap}</b> notas entre o melhor e o menor desempenho.</p>
   `;
-}
-
-// === Importar XLSX / CSV ===
-document.getElementById('file').addEventListener('change', e=>{
-  const f = e.target.files[0];
-  if (!f) return;
-  const ext = f.name.split('.').pop().toLowerCase();
-  if (ext === 'xlsx'){
-    const reader = new FileReader();
-    reader.onload = evt => {
-      const data = new Uint8Array(evt.target.result);
-      const wb = XLSX.read(data, {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(ws, {defval:''});
-      raw = json.map(r => ({
-        UF: r.UF_REGIONAL || '',
-        Nota: r.NOTA || '',
-        Instalacao: r.INSTALACAO || '',
-        Tipo: r.TIPO_NOTA || '',
-        Grupo: r.GRUPO_MEDIDA || '',
-        Texto: r.TEXTO_BREVE || '',
-        Status: r.STATUS_REGULADO || '',
-        Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-        Data: (r.DATA_ALTERACAO_MEDIDA || '').slice(0, 10),
-        Nome: r.NOME_BAIXA || ''
-      }));
-      autocompletarMeses(); render();
-    };
-    reader.readAsArrayBuffer(f);
-  } else {
-    Papa.parse(f, {
-      header:true,
-      skipEmptyLines:true,
-      complete:(res)=>{
-        raw = res.data.map(r => ({
-          UF: r.UF_REGIONAL || '',
-          Nota: r.NOTA || '',
-          Instalacao: r.INSTALACAO || '',
-          Tipo: r.TIPO_NOTA || '',
-          Grupo: r.GRUPO_MEDIDA || '',
-          Texto: r.TEXTO_BREVE || '',
-          Status: r.STATUS_REGULADO || '',
-          Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-          Data: (r.DATA_ALTERACAO_MEDIDA || '').slice(0, 10),
-          Nome: r.NOME_BAIXA || ''
-        }));
-        autocompletarMeses(); render();
       }
-    });
-  }
-});
 
-// === Exportações ===
-document.getElementById('expCsv').onclick = ()=>{
-  const csv = Papa.unparse(raw);
-  download('relatorio_equatorial.csv', csv, 'text/csv;charset=utf-8;');
-};
-document.getElementById('expXls').onclick = ()=>{
-  const ws = XLSX.utils.json_to_sheet(raw);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Relatorio');
-  XLSX.writeFile(wb, 'relatorio_equatorial.xlsx');
-};
-document.getElementById('expPdf').onclick = ()=>{
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit:'pt', format:'a4' });
-  doc.addImage(document.getElementById('logo'), 'PNG', 40, 30, 80, 40);
-  doc.setFontSize(14);
-  doc.text('Relatório de Produtividade — Equatorial Piauí', 130, 50);
-  doc.setFontSize(11);
-  doc.text(`Mês: ${fmtMes(mesSel.value)}`, 40, 85);
-  doc.text(`Total: ${kTotal.textContent}  •  Média: ${kMedia.textContent}  •  Top: ${kTop.textContent}  •  Low: ${kLow.textContent}`, 40, 100);
-  const rows = raw.map(r=>[r.UF,r.Nota,r.Instalacao,r.Tipo,r.Grupo,r.Status,r.Tempo,r.Data,r.Nome]);
-  doc.autoTable({
-    head: [['UF','Nota','Instalação','Tipo','Grupo','Status','Tempo','Data','Nome']],
-    body: rows,
-    startY: 120,
-    styles: { fontSize: 8 }
-  });
-  doc.save('relatorio_equatorial.pdf');
-};
-document.getElementById('expPng').onclick = ()=>{
-  const a = document.createElement('a');
-  a.href = chart.toBase64Image('image/png', 1);
-  a.download = 'grafico_relatorio.png';
-  a.click();
-};
+      // importações
+      document.getElementById("file").addEventListener("change", (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        const ext = f.name.split(".").pop().toLowerCase();
+        if (ext === "xlsx") {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            const data = new Uint8Array(evt.target.result);
+            const wb = XLSX.read(data, { type: "array" });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
+            raw = json.map((r) => ({
+              UF: r.UF_REGIONAL || "",
+              Nota: r.NOTA || "",
+              Instalacao: r.INSTALACAO || "",
+              Tipo: r.TIPO_NOTA || "",
+              Grupo: r.GRUPO_MEDIDA || "",
+              Texto: r.TEXTO_BREVE || "",
+              Status: r.STATUS_REGULADO || "",
+              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
+              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
+              Nome: r.NOME_BAIXA || "",
+            }));
+            autocompletarMeses();
+            render();
+          };
+          reader.readAsArrayBuffer(f);
+        } else {
+          Papa.parse(f, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (res) => {
+              raw = res.data.map((r) => ({
+                UF: r.UF_REGIONAL || "",
+                Nota: r.NOTA || "",
+                Instalacao: r.INSTALACAO || "",
+                Tipo: r.TIPO_NOTA || "",
+                Grupo: r.GRUPO_MEDIDA || "",
+                Texto: r.TEXTO_BREVE || "",
+                Status: r.STATUS_REGULADO || "",
+                Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
+                Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
+                Nome: r.NOME_BAIXA || "",
+              }));
+              autocompletarMeses();
+              render();
+            },
+          });
+        }
+      });
 
-function download(name, content, type){
-  const blob = new Blob([content], {type});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
+      // lógica para exportar
+      document.getElementById("expCsv").onclick = () => {
+        const csv = Papa.unparse(raw);
+        download("relatorio_equatorial.csv", csv, "text/csv;charset=utf-8;");
+      };
+      document.getElementById("expXls").onclick = () => {
+        const ws = XLSX.utils.json_to_sheet(raw);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Relatorio");
+        XLSX.writeFile(wb, "relatorio_equatorial.xlsx");
+      };
+      document.getElementById("expPdf").onclick = () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: "pt", format: "a4" });
+        doc.addImage(document.getElementById("logo"), "PNG", 40, 30, 80, 40);
+        doc.setFontSize(14);
+        doc.text("Relatório de Produtividade — Equatorial Piauí", 130, 50);
+        doc.setFontSize(11);
+        doc.text(`Mês: ${fmtMes(mesSel.value)}`, 40, 85);
+        doc.text(
+          `Total: ${kTotal.textContent}  •  Média: ${kMedia.textContent}  •  Top: ${kTop.textContent}  •  Low: ${kLow.textContent}`,
+          40,
+          100
+        );
+        const rows = raw.map((r) => [
+          r.UF,
+          r.Nota,
+          r.Instalacao,
+          r.Tipo,
+          r.Grupo,
+          r.Status,
+          r.Tempo,
+          r.Data,
+          r.Nome,
+        ]);
+        doc.autoTable({
+          head: [
+            [
+              "UF",
+              "Nota",
+              "Instalação",
+              "Tipo",
+              "Grupo",
+              "Status",
+              "Tempo",
+              "Data",
+              "Nome",
+            ],
+          ],
+          body: rows,
+          startY: 120,
+          styles: { fontSize: 8 },
+        });
+        doc.save("relatorio_equatorial.pdf");
+      };
+      document.getElementById("expPng").onclick = () => {
+        const a = document.createElement("a");
+        a.href = chart.toBase64Image("image/png", 1);
+        a.download = "grafico_relatorio.png";
+        a.click();
+      };
 
-mesSel.onchange = render;
-busca.oninput = ()=>render();
+      function download(name, content, type) {
+        const blob = new Blob([content], { type });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
 
-async function carregarArquivoAutomatico() {
-  try {
-    // tenta abrir o XLSX primeiro
-    const resXlsx = await fetch('uploads/EXPORTAR (2).xlsx');
-    if (resXlsx.ok) {
-      const blob = await resXlsx.blob();
-      const data = await blob.arrayBuffer();
-      const wb = XLSX.read(data, { type: 'array' });
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(ws, { defval: '' });
-      raw = json.map(r => ({
-        UF: r.UF_REGIONAL || '',
-        Nota: r.NOTA || '',
-        Instalacao: r.INSTALACAO || '',
-        Tipo: r.TIPO_NOTA || '',
-        Grupo: r.GRUPO_MEDIDA || '',
-        Texto: r.TEXTO_BREVE || '',
-        Status: r.STATUS_REGULADO || '',
-        Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-        Data: (r.DATA_ALTERACAO_MEDIDA || '').slice(0, 10),
-        Nome: r.NOME_BAIXA || ''
-      }));
-      autocompletarMeses();
-      render();
-      return;
-    }
+      mesSel.onchange = render;
+      busca.oninput = () => render();
 
-    // se não achar XLSX, tenta o CSV
-    const resCsv = await fetch('uploads/Baixada Por Regional (Qtde)- 10-10-25.csv');
-    if (resCsv.ok) {
-      const text = await resCsv.text();
-      const data = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
-      raw = data.map(r => ({
-        UF: r.UF_REGIONAL || '',
-        Nota: r.NOTA || '',
-        Instalacao: r.INSTALACAO || '',
-        Tipo: r.TIPO_NOTA || '',
-        Grupo: r.GRUPO_MEDIDA || '',
-        Texto: r.TEXTO_BREVE || '',
-        Status: r.STATUS_REGULADO || '',
-        Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-        Data: (r.DATA_ALTERACAO_MEDIDA || '').slice(0, 10),
-        Nome: r.NOME_BAIXA || ''
-      }));
-      autocompletarMeses();
-      render();
-    }
+      async function carregarArquivoAutomatico() {
+        try {
+          // tenta abrir o XLSX primeiro
+          const resXlsx = await fetch("uploads/EXPORTAR (2).xlsx");
+          if (resXlsx.ok) {
+            const blob = await resXlsx.blob();
+            const data = await blob.arrayBuffer();
+            const wb = XLSX.read(data, { type: "array" });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
+            raw = json.map((r) => ({
+              UF: r.UF_REGIONAL || "",
+              Nota: r.NOTA || "",
+              Instalacao: r.INSTALACAO || "",
+              Tipo: r.TIPO_NOTA || "",
+              Grupo: r.GRUPO_MEDIDA || "",
+              Texto: r.TEXTO_BREVE || "",
+              Status: r.STATUS_REGULADO || "",
+              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
+              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
+              Nome: r.NOME_BAIXA || "",
+            }));
+            autocompletarMeses();
+            render();
+            return;
+          }
 
-  } catch (err) {
-    console.error('Erro ao carregar arquivo automático:', err);
-  }
-}
+          // se não achar XLSX, tenta o CSV
+          const resCsv = await fetch(
+            "uploads/Baixada Por Regional (Qtde)- 10-10-25.csv"
+          );
+          if (resCsv.ok) {
+            const text = await resCsv.text();
+            const data = Papa.parse(text, {
+              header: true,
+              skipEmptyLines: true,
+            }).data;
+            raw = data.map((r) => ({
+              UF: r.UF_REGIONAL || "",
+              Nota: r.NOTA || "",
+              Instalacao: r.INSTALACAO || "",
+              Tipo: r.TIPO_NOTA || "",
+              Grupo: r.GRUPO_MEDIDA || "",
+              Texto: r.TEXTO_BREVE || "",
+              Status: r.STATUS_REGULADO || "",
+              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
+              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
+              Nome: r.NOME_BAIXA || "",
+            }));
+            autocompletarMeses();
+            render();
+          }
+        } catch (err) {
+          console.error("Erro ao carregar arquivo automático:", err);
+        }
+      }
 
-// chama automaticamente ao abrir a página
-carregarArquivoAutomatico();
-
-</script>
-</body>
+      carregarArquivoAutomatico();
+    </script>
+  </body>
 </html>

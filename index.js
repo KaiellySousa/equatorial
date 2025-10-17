@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
 
 async function criarTabelas() {
@@ -62,7 +62,10 @@ app.post("/cadastro", async (req, res) => {
 
   try {
     const client = await pool.connect();
-    const existe = await client.query("SELECT id FROM usuarios WHERE email = $1", [email]);
+    const existe = await client.query(
+      "SELECT id FROM usuarios WHERE email = $1",
+      [email]
+    );
     if (existe.rows.length > 0) {
       client.release();
       return res.status(400).json({ erro: "E-mail já cadastrado." });
@@ -77,7 +80,7 @@ app.post("/cadastro", async (req, res) => {
     res.json({
       sucesso: true,
       titulo: "Cadastro realizado",
-      mensagem: `Bem-vinda ao sistema, ${getPrimeiroNome(nome)}!`
+      mensagem: `Bem-vinda ao sistema, ${getPrimeiroNome(nome)}!`,
     });
   } catch (err) {
     res.status(500).json({ erro: "Erro no servidor." });
@@ -91,7 +94,10 @@ app.post("/login", async (req, res) => {
 
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM usuarios WHERE email = $1", [email]);
+    const result = await client.query(
+      "SELECT * FROM usuarios WHERE email = $1",
+      [email]
+    );
     const user = result.rows[0];
     client.release();
 
@@ -103,7 +109,7 @@ app.post("/login", async (req, res) => {
       sucesso: true,
       titulo: "Bem-vinda de volta",
       mensagem: `Olá, ${getPrimeiroNome(user.nome)}!`,
-      nome: user.nome
+      nome: user.nome,
     });
   } catch (err) {
     res.status(500).json({ erro: "Erro no servidor." });
@@ -111,8 +117,17 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/notas", async (req, res) => {
-  const { usuario, regional, instalacao, cliente, stc, status, dificuldade } = req.body;
-  if (!usuario || !regional || !instalacao || !cliente || !stc || !status || !dificuldade) {
+  const { usuario, regional, instalacao, cliente, stc, status, dificuldade } =
+    req.body;
+  if (
+    !usuario ||
+    !regional ||
+    !instalacao ||
+    !cliente ||
+    !stc ||
+    !status ||
+    !dificuldade
+  ) {
     return res.status(400).json({ erro: "Preencha todos os campos." });
   }
 
@@ -156,6 +171,16 @@ app.get("/indicadores", async (req, res) => {
   }
 });
 
+// isso aqui é mais uma simulação, mas pode ser implementada futuramente 
+app.post("/redefinir-senha", (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ message: "Informe um e-mail válido." });
+  }
+
+  console.log(`Simulação: link de redefinição enviado para ${email}`);
+  res.json({ message: "Verifique seu e-mail." });
+});
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
 });

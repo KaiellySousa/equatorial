@@ -2,23 +2,16 @@ import dotenv from "dotenv";
 dotenv.config();
 console.log("URL do banco:", process.env.DATABASE_URL);
 
-
-
-
 import pg from "pg";
-
-
- // lê o .env com a DATABASE_URL
 
 const { Pool } = pg;
 
-// Cria conexão com o banco PostgreSQL do Railway
+// conexão com o banco PostgreSQL do Railway
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false } // obrigatório para o Railway funcionar
 });
 
-// Cria tabelas se não existirem
 export async function criarTabelas() {
   const client = await pool.connect();
   try {
@@ -52,8 +45,6 @@ export async function criarTabelas() {
     client.release();
   }
 }
-
-// Retorna o pool de conexão (para usar nas queries)
 export async function openDb() {
   return pool;
 }

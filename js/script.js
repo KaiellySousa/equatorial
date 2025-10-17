@@ -1,4 +1,3 @@
-// ==================== UTIL ====================
 function mostrarMensagem(id, texto, cor = 'black') {
   const el = document.getElementById(id);
   if (el) {
@@ -7,7 +6,7 @@ function mostrarMensagem(id, texto, cor = 'black') {
   }
 }
 
-// ==================== CADASTRO ====================
+// cadsatro
 const formCadastro = document.getElementById('formCadastro');
 if (formCadastro) {
   formCadastro.addEventListener('submit', async (e) => {
@@ -22,6 +21,7 @@ if (formCadastro) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha })
       });
+
       const data = await res.json();
       alert(data.mensagem || data.erro);
       if (data.mensagem) formCadastro.reset();
@@ -32,13 +32,13 @@ if (formCadastro) {
   });
 }
 
-// ==================== LOGIN ====================
-const formLogin = document.querySelector('form[action$="AuthController.php"]');
+// login
+const formLogin = document.getElementById('formLogin');
 if (formLogin) {
   formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = formLogin.querySelector('input[name="email"]').value;
-    const senha = formLogin.querySelector('input[name="senha"]').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
     try {
       const res = await fetch('/login', {
@@ -47,6 +47,7 @@ if (formLogin) {
         body: JSON.stringify({ email, senha })
       });
       const data = await res.json();
+
       if (data.sucesso) {
         sessionStorage.setItem('usuario', data.usuario);
         window.location.href = 'home.html';
@@ -60,8 +61,8 @@ if (formLogin) {
   });
 }
 
-// ==================== ESQUECI SENHA ====================
-const formEsqueci = document.getElementById('form-esqueci');
+//lógica da parte de esqueci a senha 
+const formEsqueci = document.getElementById('formEsqueci');
 if (formEsqueci) {
   formEsqueci.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -84,17 +85,17 @@ if (formEsqueci) {
   });
 }
 
-// ==================== REDEFINIR SENHA ====================
-const formRedefinir = document.getElementById('form-redefinir');
+// lógica para redefinir a senha 
+const formRedefinir = document.getElementById('formRedefinir');
 if (formRedefinir) {
   formRedefinir.addEventListener('submit', async (e) => {
     e.preventDefault();
     const senha = document.getElementById('senha').value;
     const confirma = document.getElementById('confirma').value;
-    if (senha !== confirma) { mostrarMensagem('mensagem', 'Senhas não coincidem.', 'red'); return; }
+    if (senha !== confirma) return mostrarMensagem('mensagem', 'Senhas não coincidem.', 'red');
 
     const token = new URLSearchParams(window.location.search).get('token');
-    if (!token) { mostrarMensagem('mensagem', 'Token ausente.', 'red'); return; }
+    if (!token) return mostrarMensagem('mensagem', 'Token ausente.', 'red');
 
     mostrarMensagem('mensagem', 'Enviando...', 'blue');
     try {
@@ -113,7 +114,7 @@ if (formRedefinir) {
   });
 }
 
-// ==================== HOME ====================
+// página home
 const usuario = sessionStorage.getItem('usuario');
 const usuarioNomeEl = document.getElementById('usuarioNome');
 if (usuarioNomeEl) {
@@ -133,7 +134,7 @@ if (logoutBtn) {
   });
 }
 
-// ==================== HISTÓRICO ====================
+//historicos 
 const tabelaNotas = document.getElementById('tabelaNotas');
 if (tabelaNotas) {
   async function carregarNotas() {
@@ -143,16 +144,17 @@ if (tabelaNotas) {
       const tbody = tabelaNotas.querySelector('tbody');
       tbody.innerHTML = '';
       dados.forEach(n => {
-        tbody.innerHTML += `<tr>
-          <td>${n.id}</td>
-          <td>${n.usuario}</td>
-          <td>${n.regional}</td>
-          <td>${n.instalacao}</td>
-          <td>${n.cliente}</td>
-          <td>${n.stc}</td>
-          <td>${n.status}</td>
-          <td>${n.data_hora}</td>
-        </tr>`;
+        tbody.innerHTML += `
+          <tr>
+            <td>${n.id}</td>
+            <td>${n.usuario}</td>
+            <td>${n.regional}</td>
+            <td>${n.instalacao}</td>
+            <td>${n.cliente}</td>
+            <td>${n.stc}</td>
+            <td>${n.status}</td>
+            <td>${n.data_hora}</td>
+          </tr>`;
       });
     } catch (err) {
       console.error(err);
@@ -161,7 +163,7 @@ if (tabelaNotas) {
   carregarNotas();
 }
 
-// ==================== RELATÓRIOS ====================
+// relatorios 
 const relatorioSemanal = document.getElementById('relatorioSemanal');
 if (relatorioSemanal) {
   async function carregarRelatorio() {
@@ -171,12 +173,13 @@ if (relatorioSemanal) {
       const tbody = relatorioSemanal.querySelector('tbody');
       tbody.innerHTML = '';
       dados.forEach(n => {
-        tbody.innerHTML += `<tr>
-          <td>${n.nome}</td>
-          <td>${n.status}</td>
-          <td>${n.total}</td>
-          <td>${n.dia}</td>
-        </tr>`;
+        tbody.innerHTML += `
+          <tr>
+            <td>${n.nome}</td>
+            <td>${n.status}</td>
+            <td>${n.total}</td>
+            <td>${n.dia}</td>
+          </tr>`;
       });
     } catch (err) {
       console.error(err);
@@ -185,8 +188,8 @@ if (relatorioSemanal) {
   carregarRelatorio();
 }
 
-// ==================== REGISTRAR NOTA ====================
-const formNota = document.querySelector('form[action$="NotaController.php"]');
+// registrador das notas
+const formNota = document.getElementById('formNota');
 if (formNota) {
   formNota.addEventListener('submit', async (e) => {
     e.preventDefault();

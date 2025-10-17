@@ -1,56 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Esqueci Minha Senha - Equatorial</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-  body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; }
-  .esqueci-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 100%; max-width: 400px; text-align: center; }
-  .esqueci-box h2 { margin-bottom: 25px; color: #333; }
-  .esqueci-box label { display: block; margin-bottom: 8px; text-align: left; font-weight: bold; color: #555; }
-  .esqueci-box input[type="email"] { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
-  .esqueci-box button { width: 100%; padding: 12px; background: #007bff; border: none; border-radius: 8px; color: white; font-size: 16px; cursor: pointer; transition: 0.3s; }
-  .esqueci-box button:hover { background: #0056b3; }
-  #mensagem { margin-top: 15px; color: #333; font-size: 14px; }
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Esqueci Minha Senha - Equatorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        background: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .esqueci-box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .esqueci-box h2 {
+        margin-bottom: 25px;
+        color: #333;
+      }
+      .esqueci-box label {
+        display: block;
+        margin-bottom: 8px;
+        text-align: left;
+        font-weight: bold;
+        color: #555;
+      }
+      .esqueci-box input[type="email"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      }
+      .esqueci-box button {
+        width: 100%;
+        padding: 12px;
+        background: #007bff;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .esqueci-box button:hover {
+        background: #0056b3;
+      }
+      #mensagem {
+        margin-top: 15px;
+        color: #333;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="esqueci-box">
+      <h2>Esqueci minha senha</h2>
+      <form id="form-esqueci">
+        <label for="email">E-mail cadastrado</label>
+        <input
+          type="email"
+          id="email"
+          required
+          placeholder="Digite seu e-mail"
+        />
+        <button type="submit">Enviar link de recuperação</button>
+      </form>
+      <p id="mensagem"></p>
+    </div>
 
-<div class="esqueci-box">
-  <h2>Esqueci minha senha</h2>
-  <form id="form-esqueci">
-    <label for="email">E-mail cadastrado</label>
-    <input type="email" id="email" required placeholder="Digite seu e-mail">
-    <button type="submit">Enviar link de recuperação</button>
-  </form>
-  <p id="mensagem"></p>
-</div>
+    <script>
+      const form = document.getElementById("form-esqueci");
+      const msg = document.getElementById("mensagem");
 
-<script>
-const form = document.getElementById('form-esqueci');
-const msg = document.getElementById('mensagem');
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        msg.textContent = "Enviando...";
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  msg.textContent = 'Enviando...';
-
-  try {
-    const res = await fetch('/redefinir-senha', { // rota Node.js
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const json = await res.json();
-    msg.textContent = json.message || 'Verifique seu e-mail.';
-  } catch (err) {
-    console.error(err);
-    msg.textContent = 'Erro no servidor. Tente novamente.';
-  }
-});
-</script>
-</body>
+        try {
+          const res = await fetch("/redefinir-senha", {
+            // rota Node.js
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+          const json = await res.json();
+          msg.textContent = json.message || "Verifique seu e-mail.";
+        } catch (err) {
+          console.error(err);
+          msg.textContent = "Erro no servidor. Tente novamente.";
+        }
+      });
+    </script>
+  </body>
 </html>
