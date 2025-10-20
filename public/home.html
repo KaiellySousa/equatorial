@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home - Grupo Equatorial Piauí</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <header class="navbar">
-      <div class="logo">
-        <img
-          src="assets/imagens/energia-equatorial-removebg-preview.png"
-          alt="Equatorial Energia"
-        />
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="formulario.html"><strong>Formulário</strong></a>
-          </li>
-          <li>
-            <a href="historico.html"><strong>Histórico</strong></a>
-          </li>
-          <li>
-            <a href="acesso.html"><strong>Indicadores</strong></a>
-          </li>
-          <li>
-            <a href="relatorios.html"><strong>Relatórios</strong></a>
-          </li>
-          <li><button id="logout" class="btn-logout">Sair</button></li>
-        </ul>
-      </nav>
-    </header>
 
-    <section class="hero">
-      <h1>
-        <span>Bem-vinda, <span id="usuarioNome"></span>!</span>
-      </h1>
-      <p>
-        Gerencie suas informações, registre notas e acompanhe indicadores de
-        desempenho.
-      </p>
-    </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Grupo Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style1.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
 
-    <section class="cards">
-      <div class="card">
-        <h3><a href="formulario.html">Registrar Nota</a></h3>
-        <p>Cadastre notas de forma rápida e prática.</p>
-      </div>
-      <div class="card">
-        <h3><a href="historico.html">Histórico de Notas</a></h3>
-        <p>Visualize e acompanhe as notas registradas.</p>
-      </div>
-      <div class="card">
-        <h3><a href="acesso.html">Acesso aos Indicadores</a></h3>
-        <p>Veja níveis de dificuldade e desempenho.</p>
-      </div>
-      <div class="card">
-        <h3><a href="relatorios.html">Relatórios de Produtividade</a></h3>
-        <p>Gere relatórios detalhados com gráficos.</p>
-      </div>
-    </section>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia" />
+    </div>
+    <nav>
+      <ul>
+        <li>
+          <a href="formulario.html"><strong>Formulário</strong></a>
+        </li>
+        <li>
+          <a href="historico.html"><strong>Histórico</strong></a>
+        </li>
+        <li>
+          <a href="acesso.html"><strong>Indicadores</strong></a>
+        </li>
+        <li>
+          <a href="relatorios.html"><strong>Relatórios</strong></a>
+        </li>
+        <li><button id="logout" class="btn-logout">Sair</button></li>
+      </ul>
+    </nav>
+  </header>
 
-    <footer>
-      <p>© 2025 Grupo Equatorial Piauí</p>
-      <div class="social-icons">
-        <a
-          href="https://www.linkedin.com/company/grupoequatorial/"
-          target="_blank"
-          ><i class="fab fa-linkedin-in"></i
-        ></a>
-        <a
-          href="https://www.facebook.com/people/Equatorial-Energia/100069071792298/#"
-          target="_blank"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-        <a href="https://www.instagram.com/grupoequatorial/" target="_blank"
-          ><i class="fab fa-instagram"></i
-        ></a>
-      </div>
-    </footer>
+  <section class="hero">
+    <h1>
+      <span>Bem-vinda, <span id="usuarioNome"></span>!</span>
+    </h1>
+    <p>
+      Gerencie suas informações, registre notas e acompanhe indicadores de
+      desempenho.
+    </p>
+  </section>
 
-    <script>
-      // Exibir nome do usuário logado
-      const usuario = localStorage.getItem("usuario");
-      if (!usuario) {
-        window.location.href = "login.html";
-      } else {
-        document.getElementById("usuarioNome").textContent =
-          usuario.split(" ")[0];
-      }
+  <section class="cards">
+    <div class="card">
+      <h3><a href="formulario.html">Registrar Nota</a></h3>
+      <p>Cadastre notas de forma rápida e prática.</p>
+    </div>
+    <div class="card">
+      <h3><a href="historico.html">Histórico de Notas</a></h3>
+      <p>Visualize e acompanhe as notas registradas.</p>
+    </div>
+    <div class="card">
+      <h3><a href="visualizar-notas.html">Visualizar Notas</a></h3>
+      <p>Veja todas as notas organizadas com fotos e detalhes.</p>
+    </div>
+    <div class="card">
+      <h3><a href="acesso.html">Acesso aos Indicadores</a></h3>
+      <p>Veja níveis de dificuldade e desempenho.</p>
+    </div>
+    <div class="card">
+      <h3><a href="relatorios.html">Relatórios de Produtividade</a></h3>
+      <p>Gere relatórios detalhados com gráficos.</p>
+    </div>
+    <div class="card">
+      <h3><a href="monitor-atividade.html">Monitor de Atividade</a></h3>
+      <p>Acompanhe quem está visualizando cada nota em tempo real.</p>
+    </div>
+  </section>
 
-      // Botão sair
-      document.getElementById("logout").addEventListener("click", () => {
-        localStorage.removeItem("usuario");
-        window.location.href = "login.html";
+  <footer>
+    <p>© 2025 Grupo Equatorial Piauí</p>
+    <div class="social-icons">
+      <a href="https://www.linkedin.com/company/grupoequatorial/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://www.facebook.com/people/Equatorial-Energia/100069071792298/#" target="_blank"><i
+          class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/grupoequatorial/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Exibir nome do usuário logado
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("usuarioNome").textContent =
+        usuario.split(" ")[0];
+    }
+
+    // Botão sair
+
+    const btn = document.getElementById('logout');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html';
       });
-    </script>
-  </body>
+    }
+
+  </script>
+</body>
+
 </html>

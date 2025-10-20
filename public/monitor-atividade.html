@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor de Atividade - Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .monitor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .panel {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    .panel h3 {
+      margin: 0 0 15px 0;
+      color: #2d6cdf;
+      border-bottom: 2px solid #2d6cdf;
+      padding-bottom: 10px;
+    }
+    
+    .atividade-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s;
+    }
+    
+    .atividade-item:hover {
+      background: #f8f9fa;
+    }
+    
+    .atividade-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .status-online { background: #4caf50; }
+    .status-visualizando { background: #ff9800; }
+    .status-offline { background: #ccc; }
+    
+    .atividade-info {
+      flex: 1;
+    }
+    
+    .atividade-usuario {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .atividade-acao {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .atividade-tempo {
+      font-size: 12px;
+      color: #999;
+    }
+    
+    .nota-atual {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+    
+    .usuario-online {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+    
+    .usuario-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #2d6cdf;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    
+    .refresh-btn {
+      background: #2d6cdf;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+    
+    .refresh-btn:hover {
+      background: #1f4da5;
+    }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 24px;
+      font-weight: 600;
+      color: #2d6cdf;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    .live-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #4caf50;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      margin-right: 5px;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia" />
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home.html"><strong>Home</strong></a></li>
+        <li><a href="formulario.html"><strong>Formulário</strong></a></li>
+        <li><a href="historico.html"><strong>Histórico</strong></a></li>
+        <li><a href="visualizar-notas.html"><strong>Visualizar</strong></a></li>
+        <li><button id="logout" class="btn-logout">Sair</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1 style="text-align: center; margin: 30px 0; color: #2d6cdf;">
+      <span class="live-indicator"></span>Monitor de Atividade em Tempo Real
+    </h1>
+    
+    <!-- Estatísticas Gerais -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number" id="totalUsuarios">0</div>
+        <div class="stat-label">Total de Usuários</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="usuariosOnline">0</div>
+        <div class="stat-label">Usuários Online</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="notasAtivas">0</div>
+        <div class="stat-label">Notas Sendo Visualizadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="atividadesHoje">0</div>
+        <div class="stat-label">Atividades Hoje</div>
+      </div>
+    </div>
+
+    <div class="monitor-grid">
+      <!-- Usuários Online -->
+      <div class="panel">
+        <h3>Usuários Online</h3>
+        <button class="refresh-btn" onclick="atualizarDados()"> Atualizar</button>
+        <div id="usuariosOnlineList">
+          <div class="no-data">Carregando usuários...</div>
+        </div>
+      </div>
+
+      <!-- Atividade Recente -->
+      <div class="panel">
+        <h3>Atividade Recente</h3>
+        <div id="atividadeRecente">
+          <div class="no-data">Carregando atividades...</div>
+        </div>
+      </div>
+
+      <!-- Notas Sendo Visualizadas -->
+      <div class="panel">
+        <h3>Notas Sendo Visualizadas Agora</h3>
+        <div id="notasAtivas">
+          <div class="no-data">Nenhuma nota sendo visualizada</div>
+        </div>
+      </div>
+
+      <!-- Histórico de Atividades -->
+      <div class="panel">
+        <h3>Histórico de Atividades</h3>
+        <div id="historicoAtividades">
+          <div class="no-data">Carregando histórico...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Autenticação
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) window.location.href = "login.html";
+
+    // Logout
+    document.getElementById('logout').addEventListener('click', () => {
+      localStorage.removeItem('usuario');
+      window.location.href = 'login.html';
+    });
+
+    let todasNotas = [];
+    let atividadeUsuarios = {};
+    let usuariosOnline = new Set();
+    let notasSendoVisualizadas = new Set();
+
+    // Carregar dados
+    function carregarDados() {
+      // Carregar notas
+      const notasSalvas = localStorage.getItem('notasRegistradas');
+      if (notasSalvas) {
+        todasNotas = JSON.parse(notasSalvas);
+      }
+
+      // Carregar atividade
+      const atividadeSalva = localStorage.getItem('atividadeUsuarios');
+      if (atividadeSalva) {
+        atividadeUsuarios = JSON.parse(atividadeSalva);
+      }
+
+      atualizarDados();
+    }
+
+    // Atualizar todos os dados
+    function atualizarDados() {
+      atualizarEstatisticas();
+      atualizarUsuariosOnline();
+      atualizarAtividadeRecente();
+      atualizarNotasAtivas();
+      atualizarHistorico();
+    }
+
+    // Atualizar estatísticas
+    function atualizarEstatisticas() {
+      const usuariosUnicos = new Set(todasNotas.map(n => n.usuario));
+      const usuariosOnlineCount = usuariosUnicos.size;
+      const notasAtivasCount = Object.keys(atividadeUsuarios).length;
+      
+      // Contar atividades de hoje
+      const hoje = new Date().toDateString();
+      let atividadesHoje = 0;
+      Object.values(atividadeUsuarios).forEach(atividades => {
+        atividadesHoje += atividades.filter(a => 
+          new Date(a.timestamp).toDateString() === hoje
+        ).length;
+      });
+
+      document.getElementById('totalUsuarios').textContent = usuariosUnicos.size;
+      document.getElementById('usuariosOnline').textContent = usuariosOnlineCount;
+      document.getElementById('notasAtivas').textContent = notasAtivasCount;
+      document.getElementById('atividadesHoje').textContent = atividadesHoje;
+    }
+
+    // Atualizar lista de usuários online
+    function atualizarUsuariosOnline() {
+      const usuariosUnicos = [...new Set(todasNotas.map(n => n.usuario))];
+      const container = document.getElementById('usuariosOnlineList');
+      
+      if (usuariosUnicos.length === 0) {
+        container.innerHTML = '<div class="no-data">Nenhum usuário encontrado</div>';
+        return;
+      }
+
+      container.innerHTML = usuariosUnicos.map(user => `
+        <div class="usuario-online">
+          <div class="usuario-avatar">${user.charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="atividade-usuario">${user}</div>
+            <div class="atividade-tempo">Última atividade: ${obterUltimaAtividade(user)}</div>
+          </div>
+          <div class="status-dot status-online"></div>
+        </div>
+      `).join('');
+    }
+
+    // Atualizar atividade recente
+    function atualizarAtividadeRecente() {
+      const container = document.getElementById('atividadeRecente');
+      const todasAtividades = [];
+      
+      Object.entries(atividadeUsuarios).forEach(([notaId, atividades]) => {
+        atividades.forEach(atividade => {
+          todasAtividades.push({
+            ...atividade,
+            notaId: notaId
+          });
+        });
+      });
+
+      // Ordenar por timestamp (mais recente primeiro)
+      todasAtividades.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      if (todasAtividades.length === 0) {
+        container.innerHTML = '<div class="no-data">Nenhuma atividade recente</div>';
+        return;
+      }
+
+      container.innerHTML = todasAtividades.slice(0, 10).map(atividade => `
+        <div class="atividade-item">
+          <div class="status-dot status-visualizando"></div>
+          <div class="atividade-info">
+            <div class="atividade-usuario">${atividade.usuario}</div>
+            <div class="atividade-acao">Visualizando Nota #${atividade.notaId}</div>
+            <div class="atividade-tempo">${formatarTempo(atividade.timestamp)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Atualizar notas ativas
+    function atualizarNotasAtivas() {
+      const container = document.getElementById('notasAtivas');
+      const notasComAtividade = Object.keys(atividadeUsuarios);
+      
+      if (notasComAtividade.length === 0) {
+        container.innerHTML = '<div class="no-data">Nenhuma nota sendo visualizada</div>';
+        return;
+      }
+
+      container.innerHTML = notasComAtividade.map(notaId => {
+        const atividades = atividadeUsuarios[notaId];
+        const ultimaAtividade = atividades[atividades.length - 1];
+        const nota = todasNotas.find(n => n.instalacao === notaId);
+        
+        return `
+          <div class="nota-atual">
+            <div><strong>Nota #${notaId}</strong></div>
+            <div>Cliente: ${nota ? nota.cliente : 'N/A'}</div>
+            <div>Visualizada por: ${ultimaAtividade.usuario}</div>
+            <div>Última visualização: ${formatarTempo(ultimaAtividade.timestamp)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Atualizar histórico
+    function atualizarHistorico() {
+      const container = document.getElementById('historicoAtividades');
+      const hoje = new Date();
+      const ultimos7Dias = [];
+      
+      for (let i = 0; i < 7; i++) {
+        const data = new Date(hoje.getTime() - i * 24 * 60 * 60 * 1000);
+        ultimos7Dias.push(data.toDateString());
+      }
+
+      let historicoHTML = '';
+      ultimos7Dias.forEach(data => {
+        const atividadesDoDia = [];
+        Object.values(atividadeUsuarios).forEach(atividades => {
+          atividadesDoDia.push(...atividades.filter(a => 
+            new Date(a.timestamp).toDateString() === data
+          ));
+        });
+
+        if (atividadesDoDia.length > 0) {
+          historicoHTML += `
+            <div style="margin-bottom: 15px;">
+              <strong>${formatarData(data)}</strong> (${atividadesDoDia.length} atividades)
+              <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                ${atividadesDoDia.slice(0, 3).map(a => 
+                  `${a.usuario} visualizou Nota #${a.notaId}`
+                ).join(', ')}
+                ${atividadesDoDia.length > 3 ? ` e mais ${atividadesDoDia.length - 3}...` : ''}
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      container.innerHTML = historicoHTML || '<div class="no-data">Nenhum histórico disponível</div>';
+    }
+
+    // Funções auxiliares
+    function obterUltimaAtividade(usuario) {
+      let ultimaAtividade = null;
+      Object.values(atividadeUsuarios).forEach(atividades => {
+        const atividadeUsuario = atividades.filter(a => a.usuario === usuario);
+        if (atividadeUsuario.length > 0) {
+          const ultima = atividadeUsuario[atividadeUsuario.length - 1];
+          if (!ultimaAtividade || new Date(ultima.timestamp) > new Date(ultimaAtividade.timestamp)) {
+            ultimaAtividade = ultima;
+          }
+        }
+      });
+      
+      return ultimaAtividade ? formatarTempo(ultimaAtividade.timestamp) : 'Nunca';
+    }
+
+    function formatarTempo(timestamp) {
+      const agora = new Date();
+      const tempo = new Date(timestamp);
+      const diff = agora - tempo;
+      
+      if (diff < 60000) return 'Agora mesmo';
+      if (diff < 3600000) return `${Math.floor(diff / 60000)} min atrás`;
+      if (diff < 86400000) return `${Math.floor(diff / 3600000)}h atrás`;
+      return tempo.toLocaleDateString('pt-BR');
+    }
+
+    function formatarData(dataString) {
+      const data = new Date(dataString);
+      return data.toLocaleDateString('pt-BR');
+    }
+
+    // Atualizar dados a cada 10 segundos
+    setInterval(atualizarDados, 10000);
+
+    // Inicializar
+    carregarDados();
+  </script>
+</body>
+</html>

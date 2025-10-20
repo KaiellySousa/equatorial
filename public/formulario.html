@@ -1,97 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Registrar Nota - Equatorial Piauí</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body>
-    <header class="navbar">
-      <div class="logo">
-        <img
-          src="assets/imagens/energia-equatorial-removebg-preview.png"
-          alt="Equatorial Energia"
-        />
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="home.html"><strong>Home</strong></a>
-          </li>
-          <li>
-            <a href="formulario.html"><strong>Formulário</strong></a>
-          </li>
-          <li>
-            <a href="historico.html"><strong>Histórico</strong></a>
-          </li>
-          <li><button id="logout" class="btn-logout">Sair</button></li>
-        </ul>
-      </nav>
-    </header>
 
-    <main>
-      <h2 style="text-align: center; margin-top: 25px">Registrar Nota</h2>
+<head>
+  <meta charset="UTF-8" />
+  <title>Registrar Nota - Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/formulario.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
 
-      <form
-        id="formNota"
-        style="
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia" />
+    </div>
+    <nav>
+      <ul>
+        <li>
+          <a href="home.html"><strong>Home</strong></a>
+        </li>
+        <li>
+          <a href="formulario.html"><strong>Formulário</strong></a>
+        </li>
+        <li>
+          <a href="historico.html"><strong>Histórico</strong></a>
+        </li>
+        <li>
+          <a href="visualizar-notas.html"><strong>Visualizar</strong></a>
+        </li>
+        <li><button id="logout" class="btn-logout">Sair</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2 style="text-align: center; margin-top: 25px">Registrar Nota</h2>
+
+    <form id="formNota" style="
           max-width: 600px;
           margin: 30px auto;
           background: white;
           padding: 30px;
           border-radius: 15px;
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        "
-      >
-        <label>Regional:</label>
-        <input type="text" id="regional" required />
+        ">
+      <label>Regional:</label>
+      <input type="text" id="regional" required />
 
-        <label>Nº da Instalação:</label>
-        <input type="text" id="instalacao" required />
+      <label>Nº da Instalação:</label>
+      <input type="text" id="instalacao" required />
 
-        <label>Pessoa que registrou:</label>
-        <input type="text" id="cliente" required />
+      <label>Pessoa que registrou:</label>
+      <input type="text" id="cliente" required />
 
-        <label>STC:</label>
-        <select id="stc" required>
-          <option value="">Selecione...</option>
-          <option value="Aprovado">Sim</option>
-          <option value="Reprovado">Não</option>
-          <option value="Pendente">Pendente</option>
-        </select>
+      <label>STC:</label>
+      <select id="stc" required>
+        <option value="">Selecione...</option>
+        <option value="Aprovado">Sim</option>
+        <option value="Reprovado">Não</option>
+        <option value="Pendente">Pendente</option>
+      </select>
 
-        <label>Nível de Dificuldade:</label>
-        <select id="dificuldade" required>
-          <option value="">Selecione...</option>
-          <option value="Fácil">Fácil</option>
-          <option value="Médio">Médio</option>
-          <option value="Difícil">Difícil</option>
-        </select>
+      <label>Nível de Dificuldade:</label>
+      <select id="dificuldade" required>
+        <option value="">Selecione...</option>
+        <option value="Fácil">Fácil</option>
+        <option value="Médio">Médio</option>
+        <option value="Difícil">Difícil</option>
+      </select>
 
-        <label>Status:</label>
-        <input type="text" id="status" required />
+      <label>Status:</label>
+      <input type="text" id="status" required />
 
-        <button type="submit">Registrar</button>
-      </form>
-    </main>
+      <label>Foto da Nota:</label>
+      <div class="foto-upload">
+        <div class="foto-preview" id="fotoPreview">
+          <span class="camera-icon">📷</span>
+          <span>Clique para adicionar foto</span>
+        </div>
+        <input type="file" id="foto" accept="image/*" style="display: none;" />
+      </div>
 
-    <script>
-      //autenticador
-      const usuario = localStorage.getItem("usuario");
-      if (!usuario) window.location.href = "login.html";
+      <button type="submit">Registrar</button>
+    </form>
+  </main>
 
-      // para sair (botão)
-      document.getElementById("logout").addEventListener("click", () => {
-        localStorage.removeItem("usuario");
-        window.location.href = "login.html";
+  <script>
+    //autenticador
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) window.location.href = "login.html";
+
+    // Upload de foto
+    const fotoInput = document.getElementById('foto');
+    const fotoPreview = document.getElementById('fotoPreview');
+    
+    fotoPreview.addEventListener('click', () => {
+      fotoInput.click();
+    });
+    
+    fotoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          fotoPreview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;" alt="Preview da foto">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // para sair (botão)
+
+    const btn = document.getElementById('logout');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html';
       });
+    }
 
-      // enviar formulário
-      document
-        .getElementById("formNota")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
 
+    // enviar formulário
+    document
+      .getElementById("formNota")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fotoFile = document.getElementById("foto").files[0];
+        let fotoBase64 = null;
+        
+        if (fotoFile) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            fotoBase64 = e.target.result;
+            enviarDados();
+          };
+          reader.readAsDataURL(fotoFile);
+        } else {
+          enviarDados();
+        }
+
+        async function enviarDados() {
           const dados = {
             usuario,
             regional: document.getElementById("regional").value,
@@ -100,22 +149,30 @@
             stc: document.getElementById("stc").value,
             status: document.getElementById("status").value,
             dificuldade: document.getElementById("dificuldade").value,
+            foto: fotoBase64,
+            dataRegistro: new Date().toISOString()
           };
 
           try {
-            const res = await fetch("/notas", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(dados),
-            });
-            const data = await res.json();
-            alert(data.mensagem || "Nota registrada com sucesso!");
+            // Salvar no localStorage
+            const notasExistentes = JSON.parse(localStorage.getItem('notasRegistradas') || '[]');
+            notasExistentes.push(dados);
+            localStorage.setItem('notasRegistradas', JSON.stringify(notasExistentes));
+            
+            alert("Nota registrada com sucesso!");
             e.target.reset();
+            // Reset foto preview
+            fotoPreview.innerHTML = `
+              <span class="camera-icon">📷</span>
+              <span>Clique para adicionar foto</span>
+            `;
           } catch (err) {
             console.error(err);
             alert("Erro ao registrar nota. Tente novamente.");
           }
-        });
-    </script>
-  </body>
+        }
+      });
+  </script>
+</body>
+
 </html>

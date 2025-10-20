@@ -1,6 +1,4 @@
-/* ============================================
-   ESTILO GERAL - Equatorial Piauí
-   ============================================ */
+
 * {
   margin: 0;
   padding: 0;
@@ -24,7 +22,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Botões padrões */
+
 button, .btn {
   background: #2d6cdf;
   color: white;
@@ -39,9 +37,6 @@ button:hover, .btn:hover {
   background: #1f4da5;
 }
 
-/* ============================================
-   NAVBAR
-   ============================================ */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -68,7 +63,7 @@ button:hover, .btn:hover {
   text-decoration: underline;
 }
 
-/* --- BOTÃO SAIR --- */
+
 .btn-logout {
   background-color: #ffffff;
   color: #2d6cdf;
@@ -85,9 +80,7 @@ button:hover, .btn:hover {
   border-color: #d6e0fa;
 }
 
-/* ============================================
-   LOGIN / CADASTRO
-   ============================================ */
+
 .login-box {
   background: white;
   max-width: 400px;
@@ -126,9 +119,6 @@ button:hover, .btn:hover {
   font-weight: 500;
 }
 
-/* ============================================
-   DASHBOARD E TABELAS
-   ============================================ */
 .dashboard {
   max-width: 1100px;
   margin: 60px auto;
@@ -192,9 +182,6 @@ table tr:hover {
   background: #e6edff;
 }
 
-/* ============================================
-   FOOTER
-   ============================================ */
 footer {
   background: #2d6cdf;
   color: white;

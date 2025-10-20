@@ -1,0 +1,202 @@
+/* ============================================
+   ESTILO GERAL - Equatorial Piauí
+   ============================================ */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Inter", Arial, sans-serif;
+    background-color: #f5f8ff;
+    color: #333;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  /* Links */
+  a {
+    color: #2d6cdf;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* ============================================
+     NAVBAR
+     ============================================ */
+  .navbar {
+    background-color: #2d6cdf;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    height: 90px;
+    border-bottom-left-radius: 45px;
+    border-bottom-right-radius: 45px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .logo img {
+    height: 55px;
+    width: auto;
+  }
+  
+  .navbar nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .navbar nav ul li a {
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .navbar nav ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* --- BOTÃO ENTRAR --- */
+  .btn-logout,
+  #logout,
+  .btn-entrar {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    padding: 8px 22px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-logout:hover,
+  #logout:hover,
+  .btn-entrar:hover {
+    background-color: #fff;
+    color: #2d6cdf;
+  }
+  
+  /* ============================================
+     SEÇÃO HERO (título e subtítulo)
+     ============================================ */
+  .hero {
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
+  .hero h1 {
+    font-size: 36px;
+    color: #2d6cdf;
+    margin-bottom: 12px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  /* ============================================
+     BOTÃO DE ACESSO
+     ============================================ */
+  .hero button,
+  .hero .btn {
+    background-color: #2d6cdf;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: 0.3s ease;
+  }
+  .hero button:hover,
+  .hero .btn:hover {
+    background-color: #1f4da5;
+  }
+  
+  /* ============================================
+     SEÇÃO DE CARDS
+     ============================================ */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 30px;
+  }
+  
+  .card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  }
+  
+  .card h3 a {
+    color: #2d6cdf;
+    font-size: 20px;
+  }
+  .card p {
+    font-size: 15px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* ============================================
+     FOOTER
+     ============================================ */
+  footer {
+    background: #2d6cdf;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 80px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+  }
+  
+  footer p {
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 8px;
+  }
+  
+  .social-icons a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: #2d6cdf;
+    font-size: 17px;
+    transition: 0.3s;
+  }
+  
+  .social-icons a:hover {
+    background: #00aeef;
+    color: white;
+  }
+  

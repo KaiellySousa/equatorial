@@ -13,33 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="assets/css/style.css" />
 
-    <header class="navbar">
-      <div class="logo">
-        <img
-          src="assets\imagens\energia-equatorial-removebg-preview.png"
-          alt="Equatorial Energia"
-        />
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="home.html"><strong>Home</strong></a>
-          </li>
-          <li>
-            <a href="formulario.html"><strong>Formulário</strong></a>
-          </li>
-          <li>
-            <a href="historico.html"><strong>Histórico</strong></a>
-          </li>
-          <li>
-            <a href="#" id="logout"
-              ><strong><button>SAIR</button></strong></a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header>
-
     <style>
       :root {
         --eq-blue: #0a3b71;
@@ -179,6 +152,33 @@
     </style>
   </head>
   <body>
+    <header class="navbar">
+      <div class="logo">
+        <img
+          src="assets/imagens/energia-equatorial-removebg-preview.png"
+          alt="Equatorial Energia"
+        />
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="home.html"><strong>Home</strong></a>
+          </li>
+          <li>
+            <a href="formulario.html"><strong>Formulário</strong></a>
+          </li>
+          <li>
+            <a href="historico.html"><strong>Histórico</strong></a>
+          </li>
+          <li>
+            <a href="visualizar-notas.html"><strong>Visualizar</strong></a>
+          </li>
+          <li>
+            <button id="logout" class="btn-logout">Sair</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <div class="wrap">
       <header>
         <div class="brand">
@@ -223,6 +223,8 @@
         <button class="btn" id="expPdf">Exportar PDF</button>
         <button class="btn alt" id="expPng">Baixar Gráfico</button>
       </div>
+
+      <div class="muted" id="fonteDados" style="margin: -6px 0 12px"></div>
 
       <section class="grid" id="kpis">
         <div class="card">
@@ -330,6 +332,39 @@
 
       function byMonth(arr, yyyymm) {
         return arr.filter((r) => (r.Data || "").startsWith(yyyymm));
+      }
+
+      function mapRow(r) {
+        // aceita múltiplas variações de cabeçalho
+        const get = (obj, keys, def = "") => {
+          for (const k of keys) {
+            if (obj[k] !== undefined) return obj[k];
+          }
+          return def;
+        };
+
+        const dataStr = String(
+          get(r, [
+            "DATA_ALTERACAO_MEDIDA",
+            "DATA",
+            "Data",
+            "data",
+          ], "")
+        );
+        const data = dataStr.slice(0, 10);
+
+        return {
+          UF: get(r, ["UF_REGIONAL", "UF", "Regional", "REGIONAL"], ""),
+          Nota: get(r, ["NOTA", "Nota", "NUMERO_NOTA"], ""),
+          Instalacao: get(r, ["INSTALACAO", "Instalacao", "INSTALAÇÃO"], ""),
+          Tipo: get(r, ["TIPO_NOTA", "Tipo", "TIPO"], ""),
+          Grupo: get(r, ["GRUPO_MEDIDA", "Grupo"], ""),
+          Texto: get(r, ["TEXTO_BREVE", "Texto"], ""),
+          Status: get(r, ["STATUS_REGULADO", "Status", "STATUS"], ""),
+          Tempo: Number(get(r, ["TEMPO_BAIXA_DIAS", "Tempo"], 0)) || 0,
+          Data: data,
+          Nome: get(r, ["NOME_BAIXA", "Nome", "USUARIO", "COLABORADOR"], ""),
+        };
       }
 
       function autocompletarMeses() {
@@ -450,18 +485,7 @@
             const wb = XLSX.read(data, { type: "array" });
             const ws = wb.Sheets[wb.SheetNames[0]];
             const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
-            raw = json.map((r) => ({
-              UF: r.UF_REGIONAL || "",
-              Nota: r.NOTA || "",
-              Instalacao: r.INSTALACAO || "",
-              Tipo: r.TIPO_NOTA || "",
-              Grupo: r.GRUPO_MEDIDA || "",
-              Texto: r.TEXTO_BREVE || "",
-              Status: r.STATUS_REGULADO || "",
-              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
-              Nome: r.NOME_BAIXA || "",
-            }));
+            raw = json.map(mapRow);
             autocompletarMeses();
             render();
           };
@@ -471,18 +495,7 @@
             header: true,
             skipEmptyLines: true,
             complete: (res) => {
-              raw = res.data.map((r) => ({
-                UF: r.UF_REGIONAL || "",
-                Nota: r.NOTA || "",
-                Instalacao: r.INSTALACAO || "",
-                Tipo: r.TIPO_NOTA || "",
-                Grupo: r.GRUPO_MEDIDA || "",
-                Texto: r.TEXTO_BREVE || "",
-                Status: r.STATUS_REGULADO || "",
-                Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-                Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
-                Nome: r.NOME_BAIXA || "",
-              }));
+              raw = res.data.map(mapRow);
               autocompletarMeses();
               render();
             },
@@ -565,63 +578,47 @@
       busca.oninput = () => render();
 
       async function carregarArquivoAutomatico() {
-        try {
-          // tenta abrir o XLSX primeiro
-          const resXlsx = await fetch("uploads/EXPORTAR (2).xlsx");
-          if (resXlsx.ok) {
-            const blob = await resXlsx.blob();
-            const data = await blob.arrayBuffer();
-            const wb = XLSX.read(data, { type: "array" });
-            const ws = wb.Sheets[wb.SheetNames[0]];
-            const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
-            raw = json.map((r) => ({
-              UF: r.UF_REGIONAL || "",
-              Nota: r.NOTA || "",
-              Instalacao: r.INSTALACAO || "",
-              Tipo: r.TIPO_NOTA || "",
-              Grupo: r.GRUPO_MEDIDA || "",
-              Texto: r.TEXTO_BREVE || "",
-              Status: r.STATUS_REGULADO || "",
-              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
-              Nome: r.NOME_BAIXA || "",
-            }));
+        const fonte = document.getElementById("fonteDados");
+        const DEFAULT_FILES = [
+          { path: "uploads/EXPORTAR (2).xlsx", type: "xlsx" },
+          { path: "uploads/Baixada Por Regional (Qtde)- 10-10-25.csv", type: "csv" },
+        ];
+        for (const f of DEFAULT_FILES) {
+          try {
+            const res = await fetch(encodeURI(f.path));
+            if (!res.ok) continue;
+            if (f.type === "xlsx") {
+              const blob = await res.blob();
+              const data = await blob.arrayBuffer();
+              const wb = XLSX.read(data, { type: "array" });
+              const ws = wb.Sheets[wb.SheetNames[0]];
+              const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
+              raw = json.map(mapRow);
+            } else {
+              const text = await res.text();
+              const data = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+              raw = data.map(mapRow);
+            }
+            fonte.textContent = `Fonte de dados padrão: ${f.path}`;
             autocompletarMeses();
             render();
             return;
+          } catch (err) {
+            // tenta o próximo
           }
-
-          // se não achar XLSX, tenta o CSV
-          const resCsv = await fetch(
-            "uploads/Baixada Por Regional (Qtde)- 10-10-25.csv"
-          );
-          if (resCsv.ok) {
-            const text = await resCsv.text();
-            const data = Papa.parse(text, {
-              header: true,
-              skipEmptyLines: true,
-            }).data;
-            raw = data.map((r) => ({
-              UF: r.UF_REGIONAL || "",
-              Nota: r.NOTA || "",
-              Instalacao: r.INSTALACAO || "",
-              Tipo: r.TIPO_NOTA || "",
-              Grupo: r.GRUPO_MEDIDA || "",
-              Texto: r.TEXTO_BREVE || "",
-              Status: r.STATUS_REGULADO || "",
-              Tempo: Number(r.TEMPO_BAIXA_DIAS || 0),
-              Data: (r.DATA_ALTERACAO_MEDIDA || "").slice(0, 10),
-              Nome: r.NOME_BAIXA || "",
-            }));
-            autocompletarMeses();
-            render();
-          }
-        } catch (err) {
-          console.error("Erro ao carregar arquivo automático:", err);
         }
+        fonte.textContent = "Nenhum arquivo padrão encontrado em /public/uploads.";
       }
 
       carregarArquivoAutomatico();
+      // logout
+      const logoutBtn = document.getElementById("logout");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          localStorage.removeItem("usuario");
+          window.location.href = "login.html";
+        });
+      }
     </script>
   </body>
 </html>

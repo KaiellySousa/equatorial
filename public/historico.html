@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Histórico de Notas - Equatorial Piauí</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-  </head>
-  <body>
-    <header class="navbar">
-      <div class="logo">
-        <img
-          src="assets/imagens/energia-equatorial-removebg-preview.png"
-          alt="Equatorial Energia"
-        />
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <a href="home.html"><strong>Home</strong></a>
-          </li>
-          <li>
-            <a href="formulario.html"><strong>Formulário</strong></a>
-          </li>
-          <li>
-            <a href="acesso.html"><strong>Indicadores</strong></a>
-          </li>
-          <li><button id="logout" class="btn-logout">Sair</button></li>
-        </ul>
-      </nav>
-    </header>
 
-    <main class="container">
-      <h2 style="text-align: center; margin-top: 25px">Histórico de Notas</h2>
-      <table id="tabelaNotas">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Usuário</th>
-            <th>Regional</th>
-            <th>Instalação</th>
-            <th>Pessoa</th>
-            <th>STC</th>
-            <th>Status</th>
-            <th>Dificuldade</th>
-            <th>Data/Hora</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <title>Histórico de Notas - Equatorial Piauí</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
 
-    <script>
-      const usuario = localStorage.getItem("usuario");
-      if (!usuario) {
-        window.location.href = "login.html";
-      }
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <img src="assets/imagens/energia-equatorial-removebg-preview.png" alt="Equatorial Energia" />
+    </div>
+    <nav>
+      <ul>
+        <li>
+          <a href="home.html"><strong>Home</strong></a>
+        </li>
+        <li>
+          <a href="formulario.html"><strong>Formulário</strong></a>
+        </li>
+        <li>
+          <a href="acesso.html"><strong>Indicadores</strong></a>
+        </li>
+        <li><button id="logout" class="btn-logout">Sair</button></li>
+      </ul>
+    </nav>
+  </header>
 
-      document.getElementById("logout").addEventListener("click", () => {
-        localStorage.removeItem("usuario");
-        window.location.href = "login.html";
+  <main class="container">
+    <h2 style="text-align: center; margin-top: 25px">Histórico de Notas</h2>
+    <table id="tabelaNotas">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuário</th>
+          <th>Regional</th>
+          <th>Instalação</th>
+          <th>Pessoa</th>
+          <th>STC</th>
+          <th>Status</th>
+          <th>Dificuldade</th>
+          <th>Data/Hora</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script>
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+      window.location.href = "login.html";
+    }
+
+    const btn = document.getElementById('logout');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        localStorage.removeItem('usuario');
+        window.location.href = 'login.html';
       });
+    }
 
-      async function carregarNotas() {
-        try {
-          const res = await fetch("/notas");
-          const dados = await res.json();
-          const tbody = document.querySelector("#tabelaNotas tbody");
-          tbody.innerHTML = "";
 
-          if (dados.length === 0) {
-            tbody.innerHTML =
-              '<tr><td colspan="9" style="text-align:center;color:#888;">Nenhuma nota registrada ainda.</td></tr>';
-            return;
-          }
+    async function carregarNotas() {
+      try {
+        const res = await fetch("/notas");
+        const dados = await res.json();
+        const tbody = document.querySelector("#tabelaNotas tbody");
+        tbody.innerHTML = "";
 
-          dados.forEach((n) => {
-            tbody.innerHTML += `
+        if (dados.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="9" style="text-align:center;color:#888;">Nenhuma nota registrada ainda.</td></tr>';
+          return;
+        }
+
+        dados.forEach((n) => {
+          tbody.innerHTML += `
             <tr>
               <td>${n.id}</td>
               <td>${n.usuario}</td>
@@ -86,13 +89,14 @@
               <td>${n.dificuldade}</td>
               <td>${n.data_hora}</td>
             </tr>`;
-          });
-        } catch (err) {
-          console.error(err);
-        }
+        });
+      } catch (err) {
+        console.error(err);
       }
+    }
 
-      carregarNotas();
-    </script>
-  </body>
+    carregarNotas();
+  </script>
+</body>
+
 </html>
